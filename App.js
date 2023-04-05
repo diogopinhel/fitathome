@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import {Text, View, Image } from "react-native";
 import { useState, useEffect } from "react";
@@ -5,7 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { DrawerContentScrollView, DrawerItemList, DrawerItem, HeaderMenuButton } from "@react-navigation/drawer";
+import { DrawerContentScrollView, DrawerItemList, DrawerItem } from "@react-navigation/drawer";
 import LoginScreen from "./login/views/screens/LoginScreen";
 import RegistrationScreen from "./login/views/screens/RegistrationScreen";
 import Loader from "./login/views/components/Loader";
