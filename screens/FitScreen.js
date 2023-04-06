@@ -1,7 +1,8 @@
 import { StyleSheet, Text,SafeAreaView,Image, Pressable,Dimensions} from "react-native";
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { AntDesign } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const FitScreen= () => {
 const route = useRoute();
@@ -11,14 +12,14 @@ const [index,setIndex] = useState(0);
 const exercise = route.params.exercises;
 const current = exercise[index];
 console.log(current, "first exercise");
-const [count, setCount] = useState(0);
+const [donecount, setdoneCount] = useState(0);
 
 useEffect(() => {
-  AsyncStorage.setItem('doneCount', count.toString());
-}, [count]);
+  AsyncStorage.setItem('doneCount', donecount.toString());
+}, [donecount]);
 
 const handleDonePress = () => {
-  setCount(count + 1);
+  setdoneCount(donecount + 1);
   if (index + 1 >= exercise.length) {
     navigation.navigate("Finnish");
   } else {
@@ -55,7 +56,7 @@ const handleDonePress = () => {
            color: "white",
          }}
        >
-         DONE ({count})
+         DONE
        </Text>
      </Pressable>
       <Pressable style={{flexDirection:"row", alignItems:"center",marginLeft:"auto",marginRight:"auto", marginTop:45,}}>

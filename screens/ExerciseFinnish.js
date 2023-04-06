@@ -22,7 +22,6 @@ const ExerciseFinnish = () => {
     getdoneCount();
   }, []);
 
-
   return (
 
     
