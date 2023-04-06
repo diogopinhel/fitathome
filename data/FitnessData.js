@@ -4,7 +4,7 @@ export default [
       image:
         "https://burst.shopifycdn.com/photos/core-strength-fitness.jpg?width=1200&format=pjpg&exif=1&iptc=1",
       name: "FULL BODY",
-      excersises: [
+      exercises: [
         {
           id: "10", 
   
@@ -50,7 +50,7 @@ export default [
       image:
         "https://www.boraserfitness.com.br/wp-content/uploads/2016/02/banner_blog_body_weight.jpg",
       name: "PEITO E TRICEPS INICIANTE",
-      excersises: [
+      exercises: [
         {
           id:"21",
           image:"https://www.saberviver.pt/wp-content/uploads/2020/03/pushups.gif",
@@ -88,7 +88,7 @@ export default [
       image:
         "https://prod-everyoneactive-wp.s3.eu-west-2.amazonaws.com/wp-content/uploads/2020/03/23123017/lunge.jpg",
       name: "PERNAS INICIANTE",
-      excersises: [
+      exercises: [
         {
           id:"30",
           image:"https://cdn.vidaativa.pt/uploads/2019/11/agachamento.gif",
@@ -127,7 +127,7 @@ export default [
       image:
         "https://vitat.com.br/wp-content/uploads/2020/04/high-intensity-interval-training-1-1024x576.jpg",
       name: "COSTAS E BICEPS INICIANTE",
-      excersises: [
+      exercises: [
         {
           id:"40",
           image:"https://claudia.abril.com.br/wp-content/uploads/2020/04/rosca-direta.gif",
@@ -171,7 +171,7 @@ export default [
       image:
         "https://doutorjairo.uol.com.br/media/_versions/istock-533994018_widelg.jpg",
       name: "OMBRO INICIANTE",
-      excersises: [
+      exercises: [
         {
           id:"50",
           image:"https://i.pinimg.com/originals/ff/cf/40/ffcf40474f0758dfedebc823f5532aa1.gif",
@@ -215,7 +215,7 @@ export default [
       image:
         "https://blogscdn.thehut.net/app/uploads/sites/461/2020/09/Plank_1600178118.jpg",
       name: "ABDÓMEN INICIANTE",
-      excersises: [
+      exercises: [
         {
           id:"510",
           image:"https://media.self.com/photos/5817a88e6839af65340d5371/master/w_1600%2Cc_limit/MOUNTAIN_CLIMBERS.gif",
@@ -256,7 +256,7 @@ export default [
         image:
           "https://burst.shopifycdn.com/photos/core-strength-fitness.jpg?width=1200&format=pjpg&exif=1&iptc=1",
         name: "CORPO TODO INTERMEDIÁRIO",
-        excersises: [
+        exercises: [
           {
             id: "101", 
     
@@ -302,7 +302,7 @@ export default [
         image:
           "https://www.boraserfitness.com.br/wp-content/uploads/2016/02/banner_blog_body_weight.jpg",
         name: "PEITO E TRICEPS INTERMEDIÁRIO",
-        excersises: [
+        exercises: [
           {
             id:"21",
             image:"https://www.saberviver.pt/wp-content/uploads/2020/03/pushups.gif",
@@ -340,7 +340,7 @@ export default [
         image:
           "https://prod-everyoneactive-wp.s3.eu-west-2.amazonaws.com/wp-content/uploads/2020/03/23123017/lunge.jpg",
         name: "PERNAS INTERMEDIÁRIO",
-        excersises: [
+        exercises: [
           {
             id:"30",
             image:"https://cdn.vidaativa.pt/uploads/2019/11/agachamento.gif",
@@ -379,7 +379,7 @@ export default [
         image:
           "https://vitat.com.br/wp-content/uploads/2020/04/high-intensity-interval-training-1-1024x576.jpg",
         name: "COSTAS E BICEPS INTERMEDIÁRIO",
-        excersises: [
+        exercises: [
           {
             id:"40",
             image:"https://claudia.abril.com.br/wp-content/uploads/2020/04/rosca-direta.gif",
@@ -423,7 +423,7 @@ export default [
         image:
           "https://doutorjairo.uol.com.br/media/_versions/istock-533994018_widelg.jpg",
         name: "OMBRO INTERMEDIÁRIO",
-        excersises: [
+        exercises: [
           {
             id:"50",
             image:"https://i.pinimg.com/originals/ff/cf/40/ffcf40474f0758dfedebc823f5532aa1.gif",
@@ -467,7 +467,7 @@ export default [
         image:
           "https://blogscdn.thehut.net/app/uploads/sites/461/2020/09/Plank_1600178118.jpg",
         name: "ABDÓMEN INTERMEDIÁRIO",
-        excersises: [
+        exercises: [
           {
             id:"510",
             image:"https://media.self.com/photos/5817a88e6839af65340d5371/master/w_1600%2Cc_limit/MOUNTAIN_CLIMBERS.gif",
@@ -509,7 +509,7 @@ export default [
           image:
             "https://burst.shopifycdn.com/photos/core-strength-fitness.jpg?width=1200&format=pjpg&exif=1&iptc=1",
           name: "CORPO TODO DIFÍCIL",
-          excersises: [
+          exercises: [
             {
               id: "101", 
     
@@ -555,7 +555,7 @@ export default [
           image:
             "https://www.boraserfitness.com.br/wp-content/uploads/2016/02/banner_blog_body_weight.jpg",
           name: "PEITO E TRICEPS DIFÍCIL",
-          excersises: [
+          exercises: [
             {
               id:"21",
               image:"https://www.saberviver.pt/wp-content/uploads/2020/03/pushups.gif",
@@ -593,7 +593,7 @@ export default [
           image:
             "https://prod-everyoneactive-wp.s3.eu-west-2.amazonaws.com/wp-content/uploads/2020/03/23123017/lunge.jpg",
           name: "PERNAS DIFÍCIL",
-          excersises: [
+          exercises: [
             {
               id:"30",
               image:"https://cdn.vidaativa.pt/uploads/2019/11/agachamento.gif",
@@ -632,7 +632,7 @@ export default [
           image:
             "https://vitat.com.br/wp-content/uploads/2020/04/high-intensity-interval-training-1-1024x576.jpg",
           name: "COSTAS E BICEPS DIFÍCIL",
-          excersises: [
+          exercises: [
             {
               id:"40",
               image:"https://claudia.abril.com.br/wp-content/uploads/2020/04/rosca-direta.gif",
@@ -676,7 +676,7 @@ export default [
           image:
             "https://doutorjairo.uol.com.br/media/_versions/istock-533994018_widelg.jpg",
           name: "OMBRO DIFÍCIL",
-          excersises: [
+          exercises: [
             {
               id:"50",
               image:"https://i.pinimg.com/originals/ff/cf/40/ffcf40474f0758dfedebc823f5532aa1.gif",
@@ -720,7 +720,7 @@ export default [
           image:
             "https://blogscdn.thehut.net/app/uploads/sites/461/2020/09/Plank_1600178118.jpg",
           name: "ABDÓMEN DIFÍCIL",
-          excersises: [
+          exercises: [
             {
               id:"510",
               image:"https://media.self.com/photos/5817a88e6839af65340d5371/master/w_1600%2Cc_limit/MOUNTAIN_CLIMBERS.gif",
