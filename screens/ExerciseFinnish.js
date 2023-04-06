@@ -22,6 +22,10 @@ const ExerciseFinnish = () => {
     getdoneCount();
   }, []);
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
   return (
 
     
