@@ -12,7 +12,6 @@ const [index,setIndex] = useState(0);
 const exercise = route.params.exercises;
 const current = exercise[index];
 console.log(current, "first exercise");
-<<<<<<< HEAD
 const [donecount, setdoneCount] = useState(0);
 
 useEffect(() => {
@@ -21,19 +20,12 @@ useEffect(() => {
 
 const handleDonePress = () => {
   setdoneCount(donecount + 1);
-=======
-const [count, setCount] = useState(0);
-
-useEffect(() => {
-  AsyncStorage.setItem('doneCount', count.toString());
-}, [count]);
-
-const handleDonePress = () => {
-  setCount(count + 1);
->>>>>>> main
   if (index + 1 >= exercise.length) {
     navigation.navigate("Finnish");
   } else {
+    setTimeout(() => {
+      setIndex(index + 1);
+    },2000);
     navigation.navigate("Rest");
   }
 };
@@ -67,11 +59,7 @@ const handleDonePress = () => {
            color: "white",
          }}
        >
-<<<<<<< HEAD
          DONE
-=======
-         DONE ({count})
->>>>>>> main
        </Text>
      </Pressable>
       <Pressable style={{flexDirection:"row", alignItems:"center",marginLeft:"auto",marginRight:"auto", marginTop:45,}}>
@@ -106,4 +94,3 @@ const handleDonePress = () => {
 };
 export default FitScreen 
 
-const styles = StyleSheet.create({});
