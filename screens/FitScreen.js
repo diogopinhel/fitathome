@@ -23,6 +23,9 @@ const handleDonePress = () => {
   if (index + 1 >= exercise.length) {
     navigation.navigate("Finnish");
   } else {
+    setTimeout(() => {
+      setIndex(index + 1);
+    },2000);
     navigation.navigate("Rest");
   }
 };
