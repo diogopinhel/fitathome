@@ -1,7 +1,6 @@
-import { StyleSheet, Text,SafeAreaView,Image, Pressable,Dimensions} from "react-native";
+import { StyleSheet, Text,SafeAreaView,Image, Pressable} from "react-native";
 import React, {useState, useEffect} from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { AntDesign } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const FitScreen= () => {
@@ -11,11 +10,11 @@ const navigation = useNavigation();
 const [index,setIndex] = useState(0);
 const exercise = route.params.exercises;
 const current = exercise[index];
-console.log(current, "first exercise");
+//console.log(current, "first exercise");
 const [donecount, setdoneCount] = useState(0);
 
-useEffect(() => {
-  AsyncStorage.setItem('doneCount', donecount.toString());
+  useEffect(() => {
+  AsyncStorage.setItem('doneCount', donecount.toString())
 }, [donecount]);
 
 const handleDonePress = () => {

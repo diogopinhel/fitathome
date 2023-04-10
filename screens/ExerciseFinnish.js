@@ -18,7 +18,7 @@ const ExerciseFinnish = () => {
       } catch (error) {
         console.error(error);
       }
-    };
+    };    
     getdoneCount();
   }, []);
 
