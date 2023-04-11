@@ -17,17 +17,27 @@ const HomeScreen = ({navigation}) => {
     const userData = await AsyncStorage.getItem('userData');
     if (userData) {
       setUserDetails(JSON.parse(userData));
+      
+      // recupera o valor do contador da AsyncStorage
+      const value = await AsyncStorage.getItem("donecountTotal");
+      setdonecountTotal(parseInt(value) || 0);
     }
   };
 
-    const getdonecountTotal = async () => {
+  const getdonecountTotal = async () => {
     const value = await AsyncStorage.getItem("donecountTotal");
     const doneCount = await AsyncStorage.getItem("doneCount");
     const updatedValue = (parseInt(value) || 0) + (parseInt(doneCount) || 0 );
     setdonecountTotal(updatedValue);
-    await AsyncStorage.setItem("donecountTotal", updatedValue.toString());
     await AsyncStorage.setItem("doneCount", "0");
-    };
+    if (userDetails) {
+      // salva o valor do contador na AsyncStorage junto com os dados do usuário
+      await AsyncStorage.setItem("userData", JSON.stringify({...userDetails, donecountTotal: updatedValue}));
+      await AsyncStorage.setItem("donecountTotal", updatedValue.toString());
+    } else {
+      await AsyncStorage.setItem("donecountTotal", updatedValue.toString());
+    }
+  };
     
     //Atualizar sempre que a tela é carregada
     useFocusEffect(
