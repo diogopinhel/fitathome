@@ -7,7 +7,8 @@ import { useFocusEffect } from "@react-navigation/native";
 
 const HomeScreen = ({navigation}) => {
   const [userDetails, setUserDetails] = useState();
-  const [donecountTotal, setdonecountTotal] = useState(0);
+  const [countexercisesTotal, setcountexercisesTotal] = useState(0);
+  const [countplansTotal, setCountPlansTotal] = useState(0);
   useEffect(() => {
     getUserData();
   }, []);
@@ -17,34 +18,34 @@ const HomeScreen = ({navigation}) => {
     const userData = await AsyncStorage.getItem('userData');
     if (userData) {
       setUserDetails(JSON.parse(userData));
-      
-      // recupera o valor do contador da AsyncStorage
-      const value = await AsyncStorage.getItem("donecountTotal");
-      setdonecountTotal(parseInt(value) || 0);
     }
   };
 
-  const getdonecountTotal = async () => {
-    const value = await AsyncStorage.getItem("donecountTotal");
-    const doneCount = await AsyncStorage.getItem("doneCount");
-    const updatedValue = (parseInt(value) || 0) + (parseInt(doneCount) || 0 );
-    setdonecountTotal(updatedValue);
-    await AsyncStorage.setItem("doneCount", "0");
-    if (userDetails) {
-      // salva o valor do contador na AsyncStorage junto com os dados do usuário
-      await AsyncStorage.setItem("userData", JSON.stringify({...userDetails, donecountTotal: updatedValue}));
-      await AsyncStorage.setItem("donecountTotal", updatedValue.toString());
-    } else {
-      await AsyncStorage.setItem("donecountTotal", updatedValue.toString());
-    }
+  const getcountexercisesTotal = async () => {
+    const value = await AsyncStorage.getItem("countexercisesTotal");
+    const countExercises = await AsyncStorage.getItem("countExercises");
+    const updatedValue = (parseInt(value) || 0) + (parseInt(countExercises) || 0 );
+    setcountexercisesTotal(updatedValue);
+  };
+
+  const getcountplansTotal = async () => {
+    const value1 = await AsyncStorage.getItem("countplansTotal");
+    const countPlans = await AsyncStorage.getItem("countPlans");
+    const updatedValue = (parseInt(value1) || 0) + (parseInt(countPlans) || 0 );
+    setCountPlansTotal(updatedValue);
   };
     
+
+
     //Atualizar sempre que a tela é carregada
     useFocusEffect(
     React.useCallback(() => {
-    getdonecountTotal();
+    getcountexercisesTotal();
+    getcountplansTotal();
     }, [])
     );
+
+ 
 
   //Abrir Tela lateral
   const handleMenuPress = () => {
@@ -62,11 +63,11 @@ const HomeScreen = ({navigation}) => {
         <Text style={{color:"black",marginLeft:62, marginRight:"auto",textAlign:"left", fontSize:18, top:48}}>Vamos lá treinar!</Text>
 
         <Text style={{color:"black",marginLeft:71, marginRight:"auto", fontSize:18, top:75}}>Exercicios</Text>
-        <Text style={{color:"black",marginLeft:84, marginRight:"auto", fontSize:52, top:84 ,fontWeight:"bold"}}>{donecountTotal}</Text>
+        <Text style={{color:"black",marginLeft:84, marginRight:"auto", fontSize:52, top:84 ,fontWeight:"bold"}}>{countexercisesTotal}</Text>
         <Text style={{color:"black",marginLeft:68, marginRight:"auto", fontSize:18, top:95}}>Finalizados</Text>
 
         <Text style={{color:"black",marginLeft:265, marginRight:"auto", fontSize:18, bottom:42}}>Planos</Text>
-        <Text style={{color:"black",marginLeft:263, marginRight:"auto", fontSize:52, bottom:34 ,fontWeight:"bold"}}>12</Text>
+        <Text style={{color:"black",marginLeft:263, marginRight:"auto", fontSize:52, bottom:34 ,fontWeight:"bold"}}>{countplansTotal}</Text>
         <Text style={{color:"black",marginLeft:250, marginRight:"auto", fontSize:18, bottom:23}}>Finalizados</Text> 
 
 

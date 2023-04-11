@@ -11,14 +11,16 @@ const [index,setIndex] = useState(0);
 const exercise = route.params.exercises;
 const current = exercise[index];
 //console.log(current, "first exercise");
-const [donecount, setdoneCount] = useState(0);
+const [countExercises, setCountExercises
+] = useState(0);
 
   useEffect(() => {
-  AsyncStorage.setItem('doneCount', donecount.toString())
-}, [donecount]);
+  AsyncStorage.setItem('countExercises', countExercises.toString())
+}, [countExercises]);
 
 const handleDonePress = () => {
-  setdoneCount(donecount + 1);
+  setCountExercises
+(countExercises + 1);
   if (index + 1 >= exercise.length) {
     navigation.navigate("Finnish");
   } else {
