@@ -1,10 +1,17 @@
-import { StyleSheet, Text, View,SafeAreaView,Image, Pressable} from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  Image,
+  Pressable,
+} from "react-native";
 import React, { useState } from "react";
-import { useNavigation} from "@react-navigation/native";
-import { Ionicons } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const AjustarRestScreen= () => {
+const AjustarRestScreen = () => {
   const navigation = useNavigation();
   const [timeLeft, setTimeLeft] = useState(60);
 
@@ -15,41 +22,55 @@ const AjustarRestScreen= () => {
   const decreaseTime = () => {
     setTimeLeft(timeLeft - 1);
   };
-  
 
   const saveTime = async () => {
     try {
-      const userData = await AsyncStorage.getItem('userData');
+      const userData = await AsyncStorage.getItem("userData");
       const updatedUserData = JSON.parse(userData) ?? {};
       updatedUserData.RestTime = timeLeft;
-      await AsyncStorage.mergeItem('userData', JSON.stringify(updatedUserData));
+      await AsyncStorage.mergeItem("userData", JSON.stringify(updatedUserData));
       navigation.goBack();
     } catch (e) {
       console.error(e);
     }
   };
 
-
   return (
     <SafeAreaView>
       <View style={styles.header}>
-        <Ionicons onPress={() => navigation.goBack()} style={styles.backButton} name="arrow-back-outline" size={24} color="white" />
+        <Ionicons
+          onPress={() => navigation.goBack()}
+          style={styles.backButton}
+          name="arrow-back-outline"
+          size={24}
+          color="white"
+        />
         <Text style={styles.title}>DESCANSO</Text>
       </View>
       <Text style={styles.timerText}>{timeLeft}</Text>
       <View style={styles.timeAdjustmentContainer}>
-        <Ionicons onPress={decreaseTime} style={styles.timeAdjustmentIcon} name="remove-outline" size={24} color="black" />
+        <Ionicons
+          onPress={decreaseTime}
+          style={styles.timeAdjustmentIcon}
+          name="remove-outline"
+          size={24}
+          color="black"
+        />
         <Text style={styles.timeAdjustmentText}>Ajustar tempo de descanso</Text>
-        <Ionicons onPress={increaseTime} style={styles.timeAdjustmentIcon} name="add-outline" size={24} color="black" />
+        <Ionicons
+          onPress={increaseTime}
+          style={styles.timeAdjustmentIcon}
+          name="add-outline"
+          size={24}
+          color="black"
+        />
       </View>
       <Pressable onPress={saveTime} style={styles.nextButton}>
-      <Text style={styles.nextButtonText}>Salvar</Text>
+        <Text style={styles.nextButtonText}>Salvar</Text>
       </Pressable>
-      
     </SafeAreaView>
   );
 };
-
 
 const styles = StyleSheet.create({
   header: {
@@ -62,15 +83,15 @@ const styles = StyleSheet.create({
   },
   backButton: {
     marginRight: 20,
-    top:15
+    top: 15,
   },
   title: {
     fontSize: 30,
     fontWeight: "bold",
     color: "white",
-    marginRight:"auto",
-    marginLeft:60,
-    top:15 
+    marginRight: "auto",
+    marginLeft: 60,
+    top: 15,
   },
   timerIcon: {
     marginLeft: 20,
@@ -108,6 +129,8 @@ const styles = StyleSheet.create({
     marginRight: "auto",
   },
   nextButtonText: {
-    color: "white" }});
+    color: "white",
+  },
+});
 
-    export default AjustarRestScreen;
+export default AjustarRestScreen;
