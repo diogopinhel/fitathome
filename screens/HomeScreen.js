@@ -4,16 +4,17 @@ import { TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native";
+import FitnessCardsHome from "../components/FitnessCardsHome";
 
 const HomeScreen = ({ navigation }) => {
   const [userDetails, setUserDetails] = useState();
-  const [countexercisesTotal, setcountexercisesTotal] = useState(0);
+  const [countexercisesTotal, setCountexExercisesTotal] = useState(0);
   const [countplansTotal, setCountPlansTotal] = useState(0);
   useEffect(() => {
     getUserData();
   }, []);
 
-  //Obter dados do usuario da Async
+  //Obter dados do utilizador da Async
   const getUserData = async () => {
     const userData = await AsyncStorage.getItem("userData");
     if (userData) {
@@ -24,9 +25,10 @@ const HomeScreen = ({ navigation }) => {
   const getcountexercisesTotal = async () => {
     const value = await AsyncStorage.getItem("countexercisesTotal");
     const countExercises = await AsyncStorage.getItem("countExercises");
-    const updatedValue =
-      (parseInt(value) || 0) + (parseInt(countExercises) || 0);
-    setcountexercisesTotal(updatedValue);
+    const updatedValue = parseInt(value || 0) + parseInt(countExercises || 0);
+    setCountexExercisesTotal(updatedValue);
+    await AsyncStorage.setItem("countexercisesTotal", updatedValue.toString());
+    await AsyncStorage.setItem("countExercises", "0");
   };
 
   const getcountplansTotal = async () => {
@@ -34,6 +36,8 @@ const HomeScreen = ({ navigation }) => {
     const countPlans = await AsyncStorage.getItem("countPlans");
     const updatedValue = (parseInt(value1) || 0) + (parseInt(countPlans) || 0);
     setCountPlansTotal(updatedValue);
+    await AsyncStorage.setItem("countplansTotal", updatedValue.toString());
+    await AsyncStorage.setItem("countPlans", "0");
   };
 
   //Atualizar sempre que a tela é carregada
@@ -52,11 +56,15 @@ const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
+      <View style={styles.iconContainer}>
         <TouchableOpacity onPress={handleMenuPress}>
           <Ionicons name="menu-outline" size={48} color="black" />
         </TouchableOpacity>
-        <Text style={styles.greeting}>Olá, {userDetails?.fullname}</Text>
-        <Text style={styles.subtitle}>Vamos lá treinar!</Text>
+        </View>
+        <View style={styles.titleContainer}>
+          <Text style={styles.greeting}>Olá, {userDetails?.fullname}</Text>
+          <Text style={styles.subtitle}>Vamos lá treinar!</Text>
+        </View>
       </View>
       <View style={styles.stats}>
         <View style={styles.statBox}>
@@ -70,43 +78,8 @@ const HomeScreen = ({ navigation }) => {
           <Text style={styles.statSubtitle}>Finalizados</Text>
         </View>
       </View>
-      <View style={styles.workoutSection}>
-        <Text style={styles.sectionTitle}>Treinos Recentes</Text>
-        <TouchableOpacity style={styles.workoutBox}>
-          <View style={styles.workoutBoxIcon}>
-            <Ionicons name="fitness-outline" size={24} color="black" />
-          </View>
-          <View style={styles.workoutBoxContent}>
-            <Text style={styles.workoutBoxTitle}>Treino de Pernas</Text>
-            <Text style={styles.workoutBoxSubtitle}>
-              Concluído em 9 de abril de 2023
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.workoutBox}>
-          <View style={styles.workoutBoxIcon}>
-            <Ionicons name="fitness-outline" size={24} color="black" />
-          </View>
-          <View style={styles.workoutBoxContent}>
-            <Text style={styles.workoutBoxTitle}>Treino de Abdômen</Text>
-            <Text style={styles.workoutBoxSubtitle}>
-              Concluído em 7 de abril de 2023
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.workoutBox}>
-          <View style={styles.workoutBoxIcon}>
-            <Ionicons name="fitness-outline" size={24} color="black" />
-          </View>
-          <View style={styles.workoutBoxContent}></View>
-          <View style={styles.workoutBoxContent}>
-            <Text style={styles.workoutBoxTitle}>Treino de Costas</Text>
-            <Text style={styles.workoutBoxSubtitle}>
-              Concluído em 5 de abril de 2023
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </View>
+      <Text style={styles.Title}>Planos em Destaques</Text>
+      <FitnessCardsHome></FitnessCardsHome>
     </View>
   );
 };
@@ -124,29 +97,43 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
+  iconContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  titleContainer: {
+    flex: 7,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    top:8,
+  },
   greeting: {
+    flex: 1,
     fontSize: 24,
     fontWeight: "600",
     color: "#0c0d34",
+    marginRight: 130,
   },
   subtitle: {
     fontSize: 16,
-    fontWeight: "400",
-    color: "#0c0d34",
-    opacity: 0.5,
-    marginTop: 4,
+    color: 'gray',
+    top:10,
+    marginRight: 130,
+
   },
   stats: {
     flexDirection: "row",
     justifyContent: "space-between",
     paddingHorizontal: 24,
-    marginVertical: 32,
+    marginVertical: 30,
+    
   },
   statBox: {
     backgroundColor: "#f2f2f2",
     borderRadius: 8,
     padding: 16,
-    width: "47%",
+    width: "45%",
     height: 100,
     justifyContent: "center",
     alignItems: "center",
@@ -206,6 +193,31 @@ const styles = StyleSheet.create({
     color: "#0c0d34",
     opacity: 0.5,
     marginTop: 4,
+  },
+  exercisesContainer: {
+    flex: 1,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    paddingHorizontal: 24,
+  },
+  exerciseImage: {
+    width: "100%",
+    height: 120,
+    borderRadius: 8,
+    marginBottom: 8,
+  },
+  exerciseName: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#0c0d34",
+  },
+  Title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#0c0d34",
+    top: 70,
+    marginLeft: 20,
   },
 });
 
