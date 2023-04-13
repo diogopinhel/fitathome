@@ -17,7 +17,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 const EditarMedidas = ({ navigation }) => {
   const [inputs, setInputs] = React.useState({
-    ombros: "",
+    ombros: "80",
     braçodireito: "",
     braçoesquerdo: "",
     antebraçodireito: "",

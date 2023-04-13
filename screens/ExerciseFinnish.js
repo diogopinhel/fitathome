@@ -27,8 +27,7 @@ const ExerciseFinnish = () => {
       } catch (error) {
         console.error(error);
       }
-    };
-    setCountPlans(countPlans);
+    };    setCountPlans(countPlans);
     getCountPlans();
   }, []);
 

@@ -11,6 +11,7 @@ import {
   Platform,
   Button,
   Item,
+  TouchableOpacity,
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useState, useEffect } from "react";
@@ -18,6 +19,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useFocusEffect } from "@react-navigation/native";
 
 const Perfil = () => {
   const navigation = useNavigation();
@@ -50,12 +52,7 @@ const Perfil = () => {
     }
   };
   const saveImage = async (image) => {
-    try {
-      await AsyncStorage.setItem("image", image);
-      console.log("Imagem salva com sucesso!");
-    } catch (error) {
-      console.log("Erro ao salvar imagem: ", error);
-    }
+    await AsyncStorage.setItem("image", image);
   };
 
   const loadImage = async () => {
@@ -73,6 +70,12 @@ const Perfil = () => {
     loadImage();
   }, []);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      getUserData();
+    }, [])
+  );
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView style={{ backgroundColor: "#f0f0f0" }}>
@@ -87,23 +90,25 @@ const Perfil = () => {
               name="edit"
               size={26}
               color="white"
-              onPress={pickImage}
+              onPress={() => navigation.navigate("EditarPerfil")}
             />
           </View>
         </View>
 
         <View style={styles.container}>
-          <View style={styles.imageContainer}>
-            {image && <Image source={{ uri: image }} style={styles.image} />}
-            {!image && (
-              <Image
-                source={{
-                  uri: "https://cdn-icons-png.flaticon.com/512/3135/3135768.png",
-                }}
-                style={styles.image}
-              />
-            )}
-          </View>
+          <TouchableOpacity onPress={pickImage}>
+            <View style={styles.imageContainer}>
+              {image && <Image source={{ uri: image }} style={styles.image} />}
+              {!image && (
+                <Image
+                  source={{
+                    uri: "https://cdn-icons-png.flaticon.com/512/3135/3135768.png",
+                  }}
+                  style={styles.image}
+                />
+              )}
+            </View>
+          </TouchableOpacity>
           <Text style={styles.name}>{userDetails?.fullname}</Text>
           <View style={styles.infoContainer}>
             <View style={styles.infoBox}>
@@ -120,19 +125,58 @@ const Perfil = () => {
             </View>
           </View>
 
-          <View style={styles.btnContainer}>
-            <Pressable
-              style={styles.btn}
-              onPress={() => navigation.navigate("EditarPerfil")}
-            >
-              <Text style={styles.text}>Editar perfil</Text>
-            </Pressable>
-            <Pressable
-              style={styles.btn}
-              onPress={() => navigation.navigate("EditarPerfil")}
-            >
-              <Text style={styles.text}>Editar perfil</Text>
-            </Pressable>
+          <View style={styles.measurementsContainer}>
+            <Text style={styles.measurementsTitle}>Medidas</Text>
+            <View style={styles.measurementsTable}>
+              <View style={styles.measurementsRow}>
+                <Text style={styles.measurementsLabel}>Ombros</Text>
+                <Text style={styles.measurementsValue}>
+                  {userDetails?.ombros}
+                </Text>
+              </View>
+              <View style={styles.measurementsRow}>
+                <Text style={styles.measurementsLabel}>Braço direito</Text>
+                <Text style={styles.measurementsValue}>
+                  {userDetails?.bracoDireito}
+                </Text>
+              </View>
+              <View style={styles.measurementsRow}>
+                <Text style={styles.measurementsLabel}>Braço esquerdo</Text>
+                <Text style={styles.measurementsValue}>
+                  {userDetails?.bracoEsquerdo}
+                </Text>
+              </View>
+              <View style={styles.measurementsRow}>
+                <Text style={styles.measurementsLabel}>Torax</Text>
+                <Text style={styles.measurementsValue}>
+                  {userDetails?.torax}
+                </Text>
+              </View>
+              <View style={styles.measurementsRow}>
+                <Text style={styles.measurementsLabel}>Abdomen</Text>
+                <Text style={styles.measurementsValue}>
+                  {userDetails?.abdomen}
+                </Text>
+              </View>
+              <View style={styles.measurementsRow}>
+                <Text style={styles.measurementsLabel}>Quadril</Text>
+                <Text style={styles.measurementsValue}>
+                  {userDetails?.quadril}
+                </Text>
+              </View>
+              <View style={styles.measurementsRow}>
+                <Text style={styles.measurementsLabel}>Coxa direita</Text>
+                <Text style={styles.measurementsValue}>
+                  {userDetails?.coxaDireita}
+                </Text>
+              </View>
+              <View style={styles.measurementsRow}>
+                <Text style={styles.measurementsLabel}>Coxa esquerda</Text>
+                <Text style={styles.measurementsValue}>
+                  {userDetails?.coxaEsquerda}
+                </Text>
+              </View>
+            </View>
           </View>
         </View>
       </ScrollView>
@@ -213,14 +257,40 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "black",
     padding: 10,
-    marginTop: 10
+    marginTop: 10,
   },
-  text: {
-    fontSize: 16,
-    lineHeight: 21,
+  measurementsContainer: {
+    marginTop: 20,
+    width: "100%",
+    paddingHorizontal: 20,
+    backgroundColor: "#fff",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    paddingVertical: 20,
+  },
+  measurementsTitle: {
+    fontSize: 20,
     fontWeight: "bold",
-    letterSpacing: 0.25,
-    color: "white",
+    marginBottom: 20,
+  },
+  measurementsRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 10,
+  },
+  measurementsLabel: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  measurementsValue: {
+    fontSize: 16,
+    color: "#666",
+  },
+  measurementsSeparator: {
+    backgroundColor: "#ccc",
+    height: 1,
+    width: "100%",
+    marginVertical: 10,
   },
 });
 

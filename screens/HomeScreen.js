@@ -77,6 +77,7 @@ const HomeScreen = ({ navigation }) => {
           <Text style={styles.statValue}>{countplansTotal}</Text>
           <Text style={styles.statSubtitle}>Finalizados</Text>
         </View>
+
       </View>
       <Text style={styles.Title}>Planos em Destaques</Text>
       <FitnessCardsHome></FitnessCardsHome>
@@ -127,9 +128,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 24,
     marginVertical: 30,
+    },
     
-  },
-  statBox: {
+    statBox: {
     backgroundColor: "#f2f2f2",
     borderRadius: 8,
     padding: 16,
@@ -137,26 +138,45 @@ const styles = StyleSheet.create({
     height: 100,
     justifyContent: "center",
     alignItems: "center",
-  },
-  statLabel: {
+    shadowColor: "#000",
+    shadowOffset: {
+    width: 0,
+    height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    },
+    
+    statIcon: {
+    fontSize: 32,
+    color: "#ff6b6b",
+    marginBottom: 8,
+    },
+    
+    statLabel: {
     fontSize: 16,
     fontWeight: "400",
     color: "#0c0d34",
     opacity: 0.5,
-  },
-  statValue: {
-    fontSize: 24,
+    textTransform: "uppercase",
+    },
+    
+    statValue: {
+    fontSize: 26,
     fontWeight: "600",
     color: "#0c0d34",
     marginTop: 4,
-  },
-  statSubtitle: {
+    },
+    
+    statSubtitle: {
     fontSize: 14,
     fontWeight: "400",
     color: "#0c0d34",
     opacity: 0.5,
     marginTop: 4,
-  },
+    textTransform: "uppercase",
+    },
   workoutSection: {
     paddingHorizontal: 24,
   },

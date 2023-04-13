@@ -2,29 +2,14 @@ import { StyleSheet, Text, View, ScrollView, Pressable } from "react-native";
 import React from "react";
 import FitnessCards from "../components/FitnessCards";
 import { useNavigation } from "@react-navigation/native";
+import { ImageBackground } from "react-native-web";
 
 const WorkoutPlans = () => {
   const navigation = useNavigation();
   return (
     <ScrollView style={{}}>
-      <View
-        style={{
-          backgroundColor: "#2E9AFE",
-          width: "100%",
-        }}
-      >
-        <Text
-          style={{
-            color: "white",
-            fontWeight: "bold",
-            fontSize: 18,
-            bottom: 20,
-            left: 10,
-          }}
-        >
-          HOME WORKOUT{" "}
-        </Text>
-
+     <ImageBackground   style={styles.backgroundImage}
+      source={{ uri: 'https://img.freepik.com/fotos-gratis/homem-jovem-fitness-em-estudio_7502-5008.jpg' }}>
         <View
           style={{
             flexDirection: "row",
@@ -32,56 +17,18 @@ const WorkoutPlans = () => {
             top: 60,
           }}
         >
-          <Pressable>
-            <Text
-              style={{
-                color: "white",
-                fontWeight: "bold",
-                fontSize: 18,
-                bottom: 20,
-                left: 15,
-                textAlign: "left",
-              }}
-            >
-              INICIANTE{" "}
-            </Text>
-          </Pressable>
-
-          <Pressable>
-            <Text
-              style={{
-                color: "white",
-                fontWeight: "bold",
-                fontSize: 18,
-                bottom: 20,
-                right: 5,
-                textAlign: "center",
-              }}
-            >
-              INTERMEDIÁRIO{" "}
-            </Text>
-          </Pressable>
-
-          <Pressable>
-            <Text
-              style={{
-                color: "white",
-                fontWeight: "bold",
-                fontSize: 18,
-                bottom: 20,
-                right: 15,
-                textAlign: "right",
-              }}
-            >
-              DIFÍCIL{" "}
-            </Text>
-          </Pressable>
         </View>
         <FitnessCards></FitnessCards>
-      </View>
+        </ImageBackground>
     </ScrollView>
   );
 };
 export default WorkoutPlans;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'center',
+  },
+});
