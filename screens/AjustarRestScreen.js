@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -5,11 +6,12 @@ import {
   SafeAreaView,
   Image,
   Pressable,
+  Alert,
 } from "react-native";
-import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ToastAndroid } from "react-native";
 
 const AjustarRestScreen = () => {
   const navigation = useNavigation();
@@ -24,19 +26,18 @@ const AjustarRestScreen = () => {
   };
 
   const saveTime = async () => {
-    try {
+   
       const userData = await AsyncStorage.getItem("userData");
       const updatedUserData = JSON.parse(userData) ?? {};
       updatedUserData.RestTime = timeLeft;
       await AsyncStorage.mergeItem("userData", JSON.stringify(updatedUserData));
+      ToastAndroid.show("Tempo salvo com sucesso!", ToastAndroid.SHORT,);
       navigation.goBack();
-    } catch (e) {
-      console.error(e);
     }
-  };
+
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Ionicons
           onPress={() => navigation.goBack()}
@@ -45,92 +46,126 @@ const AjustarRestScreen = () => {
           size={24}
           color="white"
         />
-        <Text style={styles.title}>DESCANSO</Text>
+        <Text style={styles.headerTitle}>DESCANSO</Text>
+        <View style={styles.timerIconContainer}>
+          <Ionicons name="time-outline" size={30} color="white" />
+        </View>
       </View>
-      <Text style={styles.timerText}>{timeLeft}</Text>
-      <View style={styles.timeAdjustmentContainer}>
-        <Ionicons
-          onPress={decreaseTime}
-          style={styles.timeAdjustmentIcon}
-          name="remove-outline"
-          size={24}
-          color="black"
-        />
-        <Text style={styles.timeAdjustmentText}>Ajustar tempo de descanso</Text>
-        <Ionicons
-          onPress={increaseTime}
-          style={styles.timeAdjustmentIcon}
-          name="add-outline"
-          size={24}
-          color="black"
-        />
+      <View style={styles.content}>
+        <Text style={styles.timerText}>{timeLeft}</Text>
+        <View style={styles.timeAdjustmentContainer}>
+          <Pressable
+            onPress={decreaseTime}
+            style={({ pressed }) => [
+              styles.timeAdjustmentButton,
+              {
+                opacity: pressed ? 0.5 : 1,
+              },
+            ]}
+          >
+            <Ionicons
+              style={styles.timeAdjustmentIcon}
+              name="remove-outline"
+              size={30}
+              color="black"
+            />
+          </Pressable>
+          <Text style={styles.timeAdjustmentText}>Ajustar tempo de descanso</Text>
+          <Pressable
+            onPress={increaseTime}
+            style={({ pressed }) => [
+              styles.timeAdjustmentButton,
+              {
+                opacity: pressed ? 0.5 : 1,
+              },
+            ]}
+          >
+            <Ionicons
+              style={styles.timeAdjustmentIcon}
+              name="add-outline"
+              size={30}
+              color="black"
+            />
+          </Pressable>
+        </View>
+        <Pressable onPress={saveTime} style={styles.saveButton}>
+          <Text style={styles.saveButtonText}>Salvar</Text>
+        </Pressable>
       </View>
-      <Pressable onPress={saveTime} style={styles.nextButton}>
-        <Text style={styles.nextButtonText}>Salvar</Text>
-      </Pressable>
     </SafeAreaView>
   );
 };
+export default AjustarRestScreen;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
   header: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    backgroundColor: "blue",
-    paddingVertical: 30,
-    paddingHorizontal: 20,
+    justifyContent: "center",
+    backgroundColor: "#1E90FF",
+    paddingTop: 50,
+    paddingBottom: 10,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
   },
   backButton: {
-    marginRight: 20,
-    top: 15,
+    position: "absolute",
+    left: 20,
+    top: 50,
+    zIndex: 1,
   },
-  title: {
-    fontSize: 30,
+  headerTitle: {
+    fontSize: 24,
     fontWeight: "bold",
-    color: "white",
-    marginRight: "auto",
-    marginLeft: 60,
-    top: 15,
-  },
-  timerIcon: {
-    marginLeft: 20,
+    color: "#fff",
   },
   timerText: {
-    fontSize: 40,
-    fontWeight: "800",
-    marginTop: 50,
+    fontSize: 100,
+    fontWeight: "bold",
+    marginTop: 70,
     textAlign: "center",
+  },
+  content: {
+    alignItems: "center",
+    justifyContent: "space-between",
+    flex: 1,
+    marginHorizontal: 30,
+    marginTop: 30,
   },
   timeAdjustmentContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginHorizontal: 40,
-    marginTop: 20,
+    width: "100%",
+    marginBottom: 70,
+  },
+  timeAdjustmentButton: {
+    backgroundColor: "#fff",
+    borderRadius: 50,
+    padding: 10,
   },
   timeAdjustmentIcon: {
-    backgroundColor: "#D3D3D3",
-    borderRadius: 10,
-    padding: 5,
+    textAlign: "center",
   },
   timeAdjustmentText: {
     fontSize: 18,
-    fontWeight: "600",
-    marginHorizontal: 20,
+    fontWeight: "bold",
   },
-  nextButton: {
-    backgroundColor: "blue",
-    borderRadius: 20,
-    padding: 10,
-    width: 140,
-    top: 40,
-    marginLeft: "auto",
-    marginRight: "auto",
+  saveButton: {
+    backgroundColor: "#1E90FF",
+    paddingVertical: 15,
+    paddingHorizontal: 70,
+    borderRadius: 50,
+    marginBottom: 30,
   },
-  nextButtonText: {
-    color: "white",
+  saveButtonText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
-
-export default AjustarRestScreen;
