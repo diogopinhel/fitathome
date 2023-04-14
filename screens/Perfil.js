@@ -5,12 +5,7 @@ import {
   Text,
   View,
   Image,
-  ScrollView,
-  ImageBackground,
-  Dimensions,
   Platform,
-  Button,
-  Item,
   TouchableOpacity,
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -20,6 +15,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
+import Button from "../login/views/components/Button";
 
 const Perfil = () => {
   const navigation = useNavigation();
@@ -78,7 +74,6 @@ const Perfil = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView style={{ backgroundColor: "#f0f0f0" }}>
         <View style={styles.header}>
           <View
             style={{ flexDirection: "row", alignItems: "center", bottom: 10 }}
@@ -89,7 +84,7 @@ const Perfil = () => {
             <MaterialIcons
               name="edit"
               size={26}
-              color="white"
+              color="black"
               onPress={() => navigation.navigate("EditarPerfil")}
             />
           </View>
@@ -122,64 +117,14 @@ const Perfil = () => {
             <View style={styles.infoBox}>
               <Text style={styles.infoTitle}>{userDetails?.height}</Text>
               <Text style={styles.infoSubtitle}>Altura</Text>
-            </View>
+            </View>        
           </View>
-
-          <View style={styles.measurementsContainer}>
-            <Text style={styles.measurementsTitle}>Medidas</Text>
-            <View style={styles.measurementsTable}>
-              <View style={styles.measurementsRow}>
-                <Text style={styles.measurementsLabel}>Ombros</Text>
-                <Text style={styles.measurementsValue}>
-                  {userDetails?.ombros}
-                </Text>
-              </View>
-              <View style={styles.measurementsRow}>
-                <Text style={styles.measurementsLabel}>Braço direito</Text>
-                <Text style={styles.measurementsValue}>
-                  {userDetails?.bracoDireito}
-                </Text>
-              </View>
-              <View style={styles.measurementsRow}>
-                <Text style={styles.measurementsLabel}>Braço esquerdo</Text>
-                <Text style={styles.measurementsValue}>
-                  {userDetails?.bracoEsquerdo}
-                </Text>
-              </View>
-              <View style={styles.measurementsRow}>
-                <Text style={styles.measurementsLabel}>Torax</Text>
-                <Text style={styles.measurementsValue}>
-                  {userDetails?.torax}
-                </Text>
-              </View>
-              <View style={styles.measurementsRow}>
-                <Text style={styles.measurementsLabel}>Abdomen</Text>
-                <Text style={styles.measurementsValue}>
-                  {userDetails?.abdomen}
-                </Text>
-              </View>
-              <View style={styles.measurementsRow}>
-                <Text style={styles.measurementsLabel}>Quadril</Text>
-                <Text style={styles.measurementsValue}>
-                  {userDetails?.quadril}
-                </Text>
-              </View>
-              <View style={styles.measurementsRow}>
-                <Text style={styles.measurementsLabel}>Coxa direita</Text>
-                <Text style={styles.measurementsValue}>
-                  {userDetails?.coxaDireita}
-                </Text>
-              </View>
-              <View style={styles.measurementsRow}>
-                <Text style={styles.measurementsLabel}>Coxa esquerda</Text>
-                <Text style={styles.measurementsValue}>
-                  {userDetails?.coxaEsquerda}
-                </Text>
-              </View>
-            </View>
-          </View>
+          <Pressable
+        onPress={() => navigation.navigate("EditarMedidas")}
+      >
+        <Text style={styles.buttonText}>CONTINUAR</Text>
+      </Pressable>
         </View>
-      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -188,13 +133,12 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
-    backgroundColor: "#2E9AFE",
+    backgroundColor: "#f0f0f0",
     paddingHorizontal: 15,
     paddingTop: Platform.OS === "android" ? 45 : 0,
     alignItems: "center",
   },
   headerTitle: {
-    color: "#fff",
     fontSize: 20,
     fontWeight: "bold",
     marginLeft: 10,
@@ -214,7 +158,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     marginBottom: 20,
     borderWidth: 2,
-    borderColor: "#2E9AFE",
+    backgroundColor: "#f2f2f2",
   },
   image: {
     width: "100%",
