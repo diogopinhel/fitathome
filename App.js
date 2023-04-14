@@ -80,7 +80,7 @@ function Drawers({ navigation }) {
       drawerContent={(props) => {
         return (
           <View style={{ flex: 1 }}>
-            <View style={{ height: 200, backgroundColor: '#3299CC' }}>
+            <View style={{ height: 200, backgroundColor: '#1E90FF' }}>
             <Image
                 source={{ uri: image }}
                 style={{ width: 100, height: 100, borderRadius: 50, marginTop: 50, alignSelf: 'center' }}  />
