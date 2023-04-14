@@ -80,7 +80,7 @@ function Drawers({ navigation }) {
       drawerContent={(props) => {
         return (
           <View style={{ flex: 1 }}>
-            <View style={{ height: 200, backgroundColor: '#3299CC' }}>
+            <View style={{ height: 200, backgroundColor: '#1E90FF' }}>
             <Image
                 source={{ uri: image }}
                 style={{ width: 100, height: 100, borderRadius: 50, marginTop: 50, alignSelf: 'center' }}  />
@@ -177,7 +177,7 @@ const StackNavigator = () => {
             <Stack.Screen name="LoginScreen" component={LoginScreen} />
             <Stack.Screen name="Tab" component={Tabs} options={{ headerShown: false }}/>
             <Stack.Screen name="Home1" component={HomeScreen} /> 
-            <Stack.Screen name= "Workout1" component={WorkoutScreen} options={{ headerShown: false }}/>
+            <Stack.Screen name= "WorkoutScreen" component={WorkoutScreen} options={{ headerShown: false }}/>
             <Stack.Screen name= "WorkoutPlans1" component={WorkoutPlans} options={{ headerShown: false }}/>
             <Stack.Screen name= "Fit" component={FitScreen} options={{ headerShown: false }}/>
             <Stack.Screen name= "Rest" component={RestScreen} options={{ headerShown: false }}/>

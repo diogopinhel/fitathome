@@ -4,6 +4,7 @@ export default [
       image:
         "https://burst.shopifycdn.com/photos/core-strength-fitness.jpg?width=1200&format=pjpg&exif=1&iptc=1",
       name: "FULL BODY",
+      difficulty:1,
       exercises: [
         {
           id: "10", 
@@ -50,6 +51,7 @@ export default [
       image:
         "https://www.boraserfitness.com.br/wp-content/uploads/2016/02/banner_blog_body_weight.jpg",
       name: "PEITO E TRICEPS INICIANTE",
+      difficulty:1,
       exercises: [
         {
           id:"21",
@@ -88,7 +90,9 @@ export default [
       image:
         "https://prod-everyoneactive-wp.s3.eu-west-2.amazonaws.com/wp-content/uploads/2020/03/23123017/lunge.jpg",
       name: "PERNAS INICIANTE",
+      difficulty:1,
       exercises: [
+        
         {
           id:"30",
           image:"https://cdn.vidaativa.pt/uploads/2019/11/agachamento.gif",
@@ -127,6 +131,7 @@ export default [
       image:
         "https://vitat.com.br/wp-content/uploads/2020/04/high-intensity-interval-training-1-1024x576.jpg",
       name: "COSTAS E BICEPS INICIANTE",
+      difficulty:1,
       exercises: [
         {
           id:"40",
@@ -171,6 +176,7 @@ export default [
       image:
         "https://doutorjairo.uol.com.br/media/_versions/istock-533994018_widelg.jpg",
       name: "OMBRO INICIANTE",
+      difficulty:1,
       exercises: [
         {
           id:"50",
@@ -215,6 +221,7 @@ export default [
       image:
         "https://blogscdn.thehut.net/app/uploads/sites/461/2020/09/Plank_1600178118.jpg",
       name: "ABDÓMEN INICIANTE",
+      difficulty:1,
       exercises: [
         {
           id:"510",
@@ -256,6 +263,7 @@ export default [
         image:
           "https://burst.shopifycdn.com/photos/core-strength-fitness.jpg?width=1200&format=pjpg&exif=1&iptc=1",
         name: "CORPO TODO INTERMEDIÁRIO",
+        difficulty:2,
         exercises: [
           {
             id: "101", 
@@ -302,6 +310,7 @@ export default [
         image:
           "https://www.boraserfitness.com.br/wp-content/uploads/2016/02/banner_blog_body_weight.jpg",
         name: "PEITO E TRICEPS INTERMEDIÁRIO",
+        difficulty:2,
         exercises: [
           {
             id:"21",
@@ -336,10 +345,11 @@ export default [
         ]
       },
       {
-        id: "3",
+        id: "300",
         image:
           "https://prod-everyoneactive-wp.s3.eu-west-2.amazonaws.com/wp-content/uploads/2020/03/23123017/lunge.jpg",
         name: "PERNAS INTERMEDIÁRIO",
+        difficulty:2,
         exercises: [
           {
             id:"30",
@@ -379,6 +389,7 @@ export default [
         image:
           "https://vitat.com.br/wp-content/uploads/2020/04/high-intensity-interval-training-1-1024x576.jpg",
         name: "COSTAS E BICEPS INTERMEDIÁRIO",
+        difficulty:2,
         exercises: [
           {
             id:"40",
@@ -423,6 +434,7 @@ export default [
         image:
           "https://doutorjairo.uol.com.br/media/_versions/istock-533994018_widelg.jpg",
         name: "OMBRO INTERMEDIÁRIO",
+        difficulty:2,
         exercises: [
           {
             id:"50",
@@ -467,6 +479,7 @@ export default [
         image:
           "https://blogscdn.thehut.net/app/uploads/sites/461/2020/09/Plank_1600178118.jpg",
         name: "ABDÓMEN INTERMEDIÁRIO",
+        difficulty:2,
         exercises: [
           {
             id:"510",
@@ -509,6 +522,7 @@ export default [
           image:
             "https://burst.shopifycdn.com/photos/core-strength-fitness.jpg?width=1200&format=pjpg&exif=1&iptc=1",
           name: "CORPO TODO DIFÍCIL",
+          difficulty:3,
           exercises: [
             {
               id: "101", 
@@ -551,10 +565,11 @@ export default [
           ],
         },
         {
-          id: "2",
+          id: "212",
           image:
             "https://www.boraserfitness.com.br/wp-content/uploads/2016/02/banner_blog_body_weight.jpg",
           name: "PEITO E TRICEPS DIFÍCIL",
+          difficulty:3,
           exercises: [
             {
               id:"21",
@@ -589,10 +604,11 @@ export default [
           ]
         },
         {
-          id: "3",
+          id: "312",
           image:
             "https://prod-everyoneactive-wp.s3.eu-west-2.amazonaws.com/wp-content/uploads/2020/03/23123017/lunge.jpg",
           name: "PERNAS DIFÍCIL",
+          difficulty:3,
           exercises: [
             {
               id:"30",
@@ -628,10 +644,11 @@ export default [
           ]
         },
         {
-          id: "4",
+          id: "400",
           image:
             "https://vitat.com.br/wp-content/uploads/2020/04/high-intensity-interval-training-1-1024x576.jpg",
           name: "COSTAS E BICEPS DIFÍCIL",
+          difficulty:3,
           exercises: [
             {
               id:"40",
@@ -676,6 +693,7 @@ export default [
           image:
             "https://doutorjairo.uol.com.br/media/_versions/istock-533994018_widelg.jpg",
           name: "OMBRO DIFÍCIL",
+          difficulty:3,
           exercises: [
             {
               id:"50",
@@ -720,6 +738,7 @@ export default [
           image:
             "https://blogscdn.thehut.net/app/uploads/sites/461/2020/09/Plank_1600178118.jpg",
           name: "ABDÓMEN DIFÍCIL",
+          difficulty:3, 
           exercises: [
             {
               id:"510",
