@@ -80,7 +80,7 @@ const FitScreen = () => {
             color: "white",
           }}
         >
-          DONE
+          SEGUINTE
         </Text>
       </Pressable>
       <Pressable
@@ -158,7 +158,7 @@ const FitScreen = () => {
               }}
             >
               {" "}
-              SEGUINTE{" "}
+              SALTAR{" "}
             </Text>
           </Pressable>
         )}
