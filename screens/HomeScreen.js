@@ -10,9 +10,8 @@ const HomeScreen = ({ navigation }) => {
   const [userDetails, setUserDetails] = useState();
   const [countexercisesTotal, setCountexExercisesTotal] = useState(0);
   const [countplansTotal, setCountPlansTotal] = useState(0);
-  useEffect(() => {
-    getUserData();
-  }, []);
+
+ 
 
   //Obter dados do utilizador da Async
   const getUserData = async () => {
@@ -45,6 +44,7 @@ const HomeScreen = ({ navigation }) => {
     React.useCallback(() => {
       getcountexercisesTotal();
       getcountplansTotal();
+      getUserData();
     }, [])
   );
 
