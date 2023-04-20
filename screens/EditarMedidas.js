@@ -7,6 +7,7 @@ import {
   Keyboard,
   ScrollView,
   Alert,
+  StyleSheet,
 } from "react-native";
 
 import COLORS from "../login/conts/colors";
@@ -14,24 +15,35 @@ import Button from "../login/views/components/Button";
 import Input from "../login/views/components/Input";
 import Loader from "../login/views/components/Loader";
 import { Ionicons } from "@expo/vector-icons";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { TouchableOpacity } from "react-native";
+import moment from "moment";
 
 const EditarMedidas = ({ navigation }) => {
   const [inputs, setInputs] = React.useState({
-    ombros: "80",
+    date: "",
+    ombros: "",
     braçodireito: "",
     braçoesquerdo: "",
-    antebraçodireito: "",
-    antebraçoesquerdo: "",
     torax: "",
     abdomen: "",
     quadril: "",
     coxadireita: "",
     coxaesquerda: "",
-    gemeodireito: "",
-    gemioesquerdo: "",
   });
   const [errors, setErrors] = React.useState({});
   const [loading, setLoading] = React.useState(false);
+  const [showDatePicker, setShowDatePicker] = React.useState(false);
+
+  const handleOnDateChange = (date) => {
+    const dateString = date.toISOString().slice(0, 10);
+    setInputs({ ...inputs, date: dateString });
+  };
+
+  //Caso clique na caixa de texto da data está mostra o DataTimePicker
+  const handleOnPressDateInput = () => {
+    setShowDatePicker(true);
+  };
 
   useEffect(() => {
     const loadData = async () => {
@@ -51,6 +63,11 @@ const EditarMedidas = ({ navigation }) => {
   const validate = () => {
     Keyboard.dismiss();
     let isValid = true;
+
+    if (!inputs.date) {
+      handleError("Insira a data", "date");
+      isValid = false;
+    }
 
     if (!inputs.ombros) {
       handleError("Insira a medida dos ombros", "ombros");
@@ -89,16 +106,6 @@ const EditarMedidas = ({ navigation }) => {
 
     if (!inputs.coxaesquerda) {
       handleError("Insira a medida do toráx", "coxaesquerda");
-      isValid = false;
-    }
-
-    if (!inputs.gemeodireito) {
-      handleError("Insira a medida do toráx", "gemeodireito");
-      isValid = false;
-    }
-
-    if (!inputs.gemeoesquerdo) {
-      handleError("Insira a medida do toráx", "gemeoesquerdo");
       isValid = false;
     }
 
@@ -153,6 +160,38 @@ const EditarMedidas = ({ navigation }) => {
           Insira as suas medidas
         </Text>
         <View style={{ marginVertical: 20 }}>
+
+            <Text style={styles.label}>Selecione a Data</Text>
+            <TouchableOpacity onPress={handleOnPressDateInput}>
+              <View
+                style={[
+                  styles.inputContainer,
+                  {
+                    borderColor: errors.date ? COLORS.red : COLORS.light,
+                  },
+                ]}
+              >
+
+                <Text style={styles.inputText}>
+                  {inputs.date
+                    ? moment(inputs.date).format("DD/MM/YYYY")
+                    :  moment().format("DD/MM/YYYY")}
+                </Text>
+              </View>
+            </TouchableOpacity>
+            {showDatePicker && (
+              <DateTimePicker
+                value={inputs.date ? new Date(inputs.date) : new Date()}
+                mode="date"
+                is24Hour={true}
+                display="default"
+                onChange={(event, date) => {
+                  setShowDatePicker(false);
+                  handleOnDateChange(date);
+                }}
+              />
+            )}
+            <Text style={styles.errorText}>{errors.date}</Text>
           <Input
             keyboardType="numeric"
             onChangeText={(text) => handleOnchange(text, "ombros")}
@@ -232,27 +271,6 @@ const EditarMedidas = ({ navigation }) => {
             placeholder="Insira a medida da coxa esquerda"
             error={errors.coxaesquerda}
           />
-
-          <Input
-            keyboardType="numeric"
-            onChangeText={(text) => handleOnchange(text, "gemeodireito")}
-            value={inputs.gemeodireito}
-            onFocus={() => handleError(null, "gemeodireito")}
-            label="Gémeo direito"
-            placeholder="Insira a medida do gémeo direito"
-            error={errors.gemeodireito}
-          />
-
-          <Input
-            keyboardType="numeric"
-            onChangeText={(text) => handleOnchange(text, "gemeoesquerdo")}
-            value={inputs.gemeoesquerdo}
-            onFocus={() => handleError(null, "gemeoesquerdo")}
-            label="Gémeo esquerdo"
-            placeholder="Insira a medida do gémeo esquerdo"
-            error={errors.gemeoesquerdo}
-          />
-
           <Button title="Salvar" onPress={validate} />
           <Text
             onPress={() => navigation.navigate("Tab")}
@@ -268,5 +286,31 @@ const EditarMedidas = ({ navigation }) => {
     </SafeAreaView>
   );
 };
+const styles = StyleSheet.create({
+
+  label: {
+    marginVertical: 5,
+    fontSize: 14,
+    color: COLORS.grey,
+  },
+  inputContainer: {
+    height: 55,
+    backgroundColor: COLORS.light,
+    flexDirection: 'row',
+    paddingHorizontal: 15,
+    borderWidth: 0.5,
+    alignItems: 'center',
+  },
+  inputText: {
+    color: "#9B9B9B",
+    flex: 1,
+    marginLeft:10,
+  },
+  errorText: {
+    marginTop: 7,
+    color: COLORS.red,
+    fontSize: 12,
+  },
+});
 
 export default EditarMedidas;
