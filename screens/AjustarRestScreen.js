@@ -4,9 +4,7 @@ import {
   Text,
   View,
   SafeAreaView,
-  Image,
   Pressable,
-  Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
@@ -106,7 +104,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#1E90FF",
+    backgroundColor: "#325288",
     paddingTop: 50,
     paddingBottom: 10,
     borderBottomLeftRadius: 20,
@@ -156,7 +154,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   saveButton: {
-    backgroundColor: "#1E90FF",
+    backgroundColor: "#325288d",
     paddingVertical: 15,
     paddingHorizontal: 70,
     borderRadius: 50,
