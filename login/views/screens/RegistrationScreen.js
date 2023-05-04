@@ -23,6 +23,15 @@ const RegistrationScreen = ({navigation}) => {
     weight: '',
     password: '',
   });
+
+  const resetAsyncStorage = async () => {
+    await AsyncStorage.setItem("countexercisesTotal", "0");
+    await AsyncStorage.setItem("countExercises", "0");
+    await AsyncStorage.setItem("countplansTotal", "0");
+    await AsyncStorage.setItem("countPlans", "0");
+    await AsyncStorage.removeItem('image');
+  };
+
   const [errors, setErrors] = React.useState({});
   const [loading, setLoading] = React.useState(false);
 
@@ -76,6 +85,8 @@ const RegistrationScreen = ({navigation}) => {
 
     if (isValid) {
       register();
+      resetAsyncStorage();                
+      
     }
   };
 
