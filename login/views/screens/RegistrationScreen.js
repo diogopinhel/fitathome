@@ -1,14 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
-import {
-  View,
-  Text,
-  SafeAreaView,
-  Keyboard,
-  ScrollView,
-  Alert,
-} from 'react-native';
-
+import { View, Text, SafeAreaView, Keyboard, ScrollView, Alert } from 'react-native';
 import COLORS from '../../conts/colors';
 import Button from '../components/Button';
 import Input from '../components/Input';
@@ -30,6 +22,8 @@ const RegistrationScreen = ({navigation}) => {
     await AsyncStorage.setItem("countplansTotal", "0");
     await AsyncStorage.setItem("countPlans", "0");
     await AsyncStorage.removeItem('image');
+    await AsyncStorage.setItem("userMedidas", "0");
+    await AsyncStorage.setItem("userNewMedidas", "0");
   };
 
   const [errors, setErrors] = React.useState({});
