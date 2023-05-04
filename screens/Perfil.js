@@ -11,17 +11,34 @@ import moment from "moment";
 const Perfil = () => {
   const navigation = useNavigation();
   const [userDetails, setUserDetails] = React.useState();
+  const [userMedidas, setUserMedidas] = React.useState();
+  const [userNewMedidas, setUserNewMedidas] = React.useState();
   const [selectedDate, setSelectedDate] = React.useState("");
-  React.useEffect(() => {
-    getUserData();
-  }, []);
 
   //Ir buscar dados do login
   const getUserData = async () => {
-    const userData = await AsyncStorage.getItem("userData");
+    const userData = await AsyncStorage.getItem('userData');
     if (userData) {
       setUserDetails(JSON.parse(userData));
     }
+  };
+
+  const getUserMedidas = async () => {
+    const Medidas = await AsyncStorage.getItem('userMedidas');
+    const NovasMedidas = await AsyncStorage.getItem('userNewMedidas');
+
+    if (Medidas) {
+      setUserMedidas(JSON.parse(Medidas));
+    }
+    if (NovasMedidas) {
+      setUserNewMedidas(JSON.parse(NovasMedidas));
+    }
+  };
+
+  const limparmedidas = async () => {
+    await AsyncStorage.setItem("userMedidas", "0");
+    await AsyncStorage.setItem("userNewMedidas", "0");
+    await getUserMedidas();
   };
 
   const [image, setImage] = useState(null);
@@ -56,7 +73,7 @@ const Perfil = () => {
 
 
   const medidas = {
-    tableHead: ["Datas", moment(selectedDate || userDetails?.date).format("DD/MM/YYYY"), ""],
+    tableHead: ["Datas", moment(selectedDate || userMedidas?.date).format("DD/MM/YYYY"),moment(selectedDate || userNewMedidas?.dateNewMedidas).format("DD/MM/YYYY")],
     tableTitle: [
       "Ombros",
       "Braço Direito",
@@ -67,17 +84,17 @@ const Perfil = () => {
       "Coxa Direita",
       "Coxa Esquerda",
     ],
-    tableData: [
-      [userDetails?.ombros || "", ""],
-      [userDetails?.braçodireito || "", ""],
-      [userDetails?.braçoesquerdo || "", ""],
-      [userDetails?.torax || "", ""],
-      [userDetails?.abdomen || "", ""],
-      [userDetails?.quadril || "", ""],
-      [userDetails?.coxadireita || "", ""],
-      [userDetails?.coxaesquerda || "", ""],
-    ],
-  };
+      tableData: [
+        [userMedidas?.ombros || "",userNewMedidas?.ombrosNewMedidas || ""],
+        [userMedidas?.braçodireito || "",userNewMedidas?.braçodireitoNewMedidas || ""],
+        [userMedidas?.braçoesquerdo || "",userNewMedidas?.braçoesquerdoNewMedidas || ""],
+        [userMedidas?.torax || "",userNewMedidas?.toraxNewMedidas || ""],
+        [userMedidas?.abdomen || "",userNewMedidas?.abdomenNewMedidas || ""],
+        [userMedidas?.quadril || "",userNewMedidas?.quadrilNewMedidas || ""],
+        [userMedidas?.coxadireita || "",userNewMedidas?.coxadireitaNewMedidas || ""],
+        [userMedidas?.coxaesquerda || "",userNewMedidas?.coxaesquerdaNewMedidas || ""],
+      ],
+    };
   useEffect(() => {
     loadImage();
   }, []);
@@ -85,6 +102,7 @@ const Perfil = () => {
   useFocusEffect(
     React.useCallback(() => {
       getUserData();
+      getUserMedidas();
     }, [])
   );
 
@@ -170,11 +188,11 @@ const Perfil = () => {
             <Text style={styles.btnText}>Editar</Text>
           </Pressable>
           <Pressable
-            style={styles.btnstyle}
-            onPress={() => navigation.navigate("EditarMedidas")}
-          >
-            <Text style={styles.btnText}>Limpar</Text>
-          </Pressable>
+  style={styles.btnstyle}
+  onPress={limparmedidas}
+>
+  <Text style={styles.btnText}>Limpar</Text>
+</Pressable>
         </View>
       </View>
     </SafeAreaView>
