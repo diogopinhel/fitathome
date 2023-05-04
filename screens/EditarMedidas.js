@@ -1,56 +1,51 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  SafeAreaView,
-  Keyboard,
-  ScrollView,
-  Alert,
-} from "react-native";
-
+import { View, Text, SafeAreaView, Keyboard, ScrollView, Alert, StyleSheet } from "react-native";
+import React from "react";
 import COLORS from "../login/conts/colors";
 import Button from "../login/views/components/Button";
 import Input from "../login/views/components/Input";
 import Loader from "../login/views/components/Loader";
 import { Ionicons } from "@expo/vector-icons";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { TouchableOpacity } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import moment from "moment";
 
 const EditarMedidas = ({ navigation }) => {
   const [inputs, setInputs] = React.useState({
-    ombros: "80",
+    date: "",
+    ombros: "",
     braçodireito: "",
     braçoesquerdo: "",
-    antebraçodireito: "",
-    antebraçoesquerdo: "",
     torax: "",
     abdomen: "",
     quadril: "",
     coxadireita: "",
     coxaesquerda: "",
-    gemeodireito: "",
-    gemioesquerdo: "",
   });
+  
   const [errors, setErrors] = React.useState({});
   const [loading, setLoading] = React.useState(false);
+  const [showDatePicker, setShowDatePicker] = React.useState(false);
 
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const data = await AsyncStorage.getItem("userData");
-        if (data) {
-          const parsedData = JSON.parse(data);
-          setInputs(parsedData);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    loadData();
-  }, []);
+  const handleOnDateChange = (date) => {
+    const dateString = date.toISOString().slice(0, 10);
+    setInputs({ ...inputs, date: dateString });
+  };
+
+  //Caso clique na caixa de texto da data está mostra o DataTimePicker
+  const handleOnPressDateInput = () => {
+    setShowDatePicker(true);
+  };
+
 
   const validate = () => {
     Keyboard.dismiss();
     let isValid = true;
+
+    if (!inputs.date) {
+      handleError("Insira a data", "date");
+      isValid = false;
+    }
 
     if (!inputs.ombros) {
       handleError("Insira a medida dos ombros", "ombros");
@@ -92,33 +87,69 @@ const EditarMedidas = ({ navigation }) => {
       isValid = false;
     }
 
-    if (!inputs.gemeodireito) {
-      handleError("Insira a medida do toráx", "gemeodireito");
-      isValid = false;
-    }
-
-    if (!inputs.gemeoesquerdo) {
-      handleError("Insira a medida do toráx", "gemeoesquerdo");
-      isValid = false;
-    }
-
     if (isValid) {
       salvar();
     }
   };
 
-  const salvar = () => {
+  const salvar = async () => {
     setLoading(true);
-    setTimeout(() => {
-      try {
-        setLoading(false);
-        AsyncStorage.setItem("userData", JSON.stringify(inputs));
-        navigation.navigate("Tab");
-      } catch (error) {
-        Alert.alert("Error", "Algo deu errado");
+  
+    try {
+      const Medidas = await AsyncStorage.getItem("userMedidas");
+      const MedidasObj = JSON.parse(Medidas);
+  
+      if (MedidasObj && MedidasObj.ombros && MedidasObj.torax && MedidasObj.abdomen && MedidasObj.quadril && MedidasObj.braçodireito && MedidasObj.braçoesquerdo && MedidasObj.coxadireita && MedidasObj.coxaesquerda) {
+        // Se userMedidas já tiver medidas, crie uma nova chave "NewMedidas"
+        console.log("userMedidas já tem medidas, criando nova chave NewMedidas");
+        const NewMedidas = await AsyncStorage.getItem("userNewMedidas");
+        let NewMedidasObj = NewMedidas ? JSON.parse(NewMedidas) : {};
+  
+        NewMedidasObj = {
+          ombrosNewMedidas: inputs.ombros,
+          braçodireitoNewMedidas: inputs.braçodireito,
+          braçoesquerdoNewMedidas: inputs.braçoesquerdo,
+          toraxNewMedidas: inputs.torax,
+          abdomenNewMedidas: inputs.abdomen,
+          quadrilNewMedidas: inputs.quadril,
+          coxadireitaNewMedidas: inputs.coxadireita,
+          coxaesquerdaNewMedidas: inputs.coxaesquerda,
+          dateNewMedidas: inputs.date,
+        };
+  
+        console.log("Salvando medidas em userNewMedidas:", NewMedidasObj);
+        await AsyncStorage.setItem("userNewMedidas", JSON.stringify(NewMedidasObj));
+      } else {
+        // Caso contrário, atualize a chave "userMedidas" existente
+        console.log("userMedidas não tem medidas, atualizando chave existente");
+        const updatedUserMedidas = {
+          ...MedidasObj,
+          ombros: inputs.ombros,
+          braçodireito: inputs.braçodireito,
+          braçoesquerdo: inputs.braçoesquerdo,
+          torax: inputs.torax,
+          abdomen: inputs.abdomen,
+          quadril: inputs.quadril,
+          coxadireita: inputs.coxadireita,
+          coxaesquerda: inputs.coxaesquerda,
+          date: inputs.date,
+        };
+  
+        console.log("Salvando medidas em userMedidas:", updatedUserMedidas);
+        await AsyncStorage.setItem("userMedidas", JSON.stringify(updatedUserMedidas));
       }
-    }, 3000);
+  
+      setLoading(false);
+      navigation.navigate("Tab");
+      console.log("Medidas salvas com sucesso");
+    } catch (error) {
+      setLoading(false);
+      Alert.alert("Error", "Algo deu errado");
+      console.log("Erro ao salvar medidas:", error);
+    }
   };
+  
+  
 
   const handleOnchange = (text, input) => {
     setInputs((prevState) => ({ ...prevState, [input]: text }));
@@ -153,6 +184,38 @@ const EditarMedidas = ({ navigation }) => {
           Insira as suas medidas
         </Text>
         <View style={{ marginVertical: 20 }}>
+
+            <Text style={styles.label}>Selecione a Data</Text>
+            <TouchableOpacity onPress={handleOnPressDateInput}>
+              <View
+                style={[
+                  styles.inputContainer,
+                  {
+                    borderColor: errors.date ? COLORS.red : COLORS.light,
+                  },
+                ]}
+              >
+
+                <Text style={styles.inputText}>
+                  {inputs.date
+                    ? moment(inputs.date).format("DD/MM/YYYY")
+                    :  moment().format("DD/MM/YYYY")}
+                </Text>
+              </View>
+            </TouchableOpacity>
+            {showDatePicker && (
+              <DateTimePicker
+                value={inputs.date ? new Date(inputs.date) : new Date()}
+                mode="date"
+                is24Hour={true}
+                display="default"
+                onChange={(event, date) => {
+                  setShowDatePicker(false);
+                  handleOnDateChange(date);
+                }}
+              />
+            )}
+            <Text style={styles.errorText}>{errors.date}</Text>
           <Input
             keyboardType="numeric"
             onChangeText={(text) => handleOnchange(text, "ombros")}
@@ -232,27 +295,6 @@ const EditarMedidas = ({ navigation }) => {
             placeholder="Insira a medida da coxa esquerda"
             error={errors.coxaesquerda}
           />
-
-          <Input
-            keyboardType="numeric"
-            onChangeText={(text) => handleOnchange(text, "gemeodireito")}
-            value={inputs.gemeodireito}
-            onFocus={() => handleError(null, "gemeodireito")}
-            label="Gémeo direito"
-            placeholder="Insira a medida do gémeo direito"
-            error={errors.gemeodireito}
-          />
-
-          <Input
-            keyboardType="numeric"
-            onChangeText={(text) => handleOnchange(text, "gemeoesquerdo")}
-            value={inputs.gemeoesquerdo}
-            onFocus={() => handleError(null, "gemeoesquerdo")}
-            label="Gémeo esquerdo"
-            placeholder="Insira a medida do gémeo esquerdo"
-            error={errors.gemeoesquerdo}
-          />
-
           <Button title="Salvar" onPress={validate} />
           <Text
             onPress={() => navigation.navigate("Tab")}
@@ -268,5 +310,31 @@ const EditarMedidas = ({ navigation }) => {
     </SafeAreaView>
   );
 };
+const styles = StyleSheet.create({
+
+  label: {
+    marginVertical: 5,
+    fontSize: 14,
+    color: COLORS.grey,
+  },
+  inputContainer: {
+    height: 55,
+    backgroundColor: COLORS.light,
+    flexDirection: 'row',
+    paddingHorizontal: 15,
+    borderWidth: 0.5,
+    alignItems: 'center',
+  },
+  inputText: {
+    color: "#9B9B9B",
+    flex: 1,
+    marginLeft:10,
+  },
+  errorText: {
+    marginTop: 7,
+    color: COLORS.red,
+    fontSize: 12,
+  },
+});
 
 export default EditarMedidas;

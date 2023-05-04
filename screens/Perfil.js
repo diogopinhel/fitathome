@@ -1,35 +1,44 @@
-import {
-  Pressable,
-  StyleSheet,
-  SafeAreaView,
-  Text,
-  View,
-  Image,
-  Platform,
-  TouchableOpacity,
-} from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import {Pressable,StyleSheet,SafeAreaView,Text,View,Image,Platform,TouchableOpacity,} from "react-native";
+import { useNavigation} from "@react-navigation/native";
 import React, { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
-import Button from "../login/views/components/Button";
+import {Table,TableWrapper,Row,Rows,Col} from "react-native-table-component";
+import moment from "moment";
 
 const Perfil = () => {
   const navigation = useNavigation();
   const [userDetails, setUserDetails] = React.useState();
-  React.useEffect(() => {
-    getUserData();
-  }, []);
+  const [userMedidas, setUserMedidas] = React.useState();
+  const [userNewMedidas, setUserNewMedidas] = React.useState();
+  const [selectedDate, setSelectedDate] = React.useState("");
 
   //Ir buscar dados do login
   const getUserData = async () => {
-    const userData = await AsyncStorage.getItem("userData");
+    const userData = await AsyncStorage.getItem('userData');
     if (userData) {
       setUserDetails(JSON.parse(userData));
     }
+  };
+
+  const getUserMedidas = async () => {
+    const Medidas = await AsyncStorage.getItem('userMedidas');
+    const NovasMedidas = await AsyncStorage.getItem('userNewMedidas');
+
+    if (Medidas) {
+      setUserMedidas(JSON.parse(Medidas));
+    }
+    if (NovasMedidas) {
+      setUserNewMedidas(JSON.parse(NovasMedidas));
+    }
+  };
+
+  const limparmedidas = async () => {
+    await AsyncStorage.setItem("userMedidas", "0");
+    await AsyncStorage.setItem("userNewMedidas", "0");
+    await getUserMedidas();
   };
 
   const [image, setImage] = useState(null);
@@ -62,6 +71,30 @@ const Perfil = () => {
     }
   };
 
+
+  const medidas = {
+    tableHead: ["Datas", moment(selectedDate || userMedidas?.date).format("DD/MM/YYYY"),moment(selectedDate || userNewMedidas?.dateNewMedidas).format("DD/MM/YYYY")],
+    tableTitle: [
+      "Ombros",
+      "Braço Direito",
+      "Braço Esquerdo",
+      "Tórax",
+      "Abdomén",
+      "Quadril",
+      "Coxa Direita",
+      "Coxa Esquerda",
+    ],
+      tableData: [
+        [userMedidas?.ombros || "",userNewMedidas?.ombrosNewMedidas || ""],
+        [userMedidas?.braçodireito || "",userNewMedidas?.braçodireitoNewMedidas || ""],
+        [userMedidas?.braçoesquerdo || "",userNewMedidas?.braçoesquerdoNewMedidas || ""],
+        [userMedidas?.torax || "",userNewMedidas?.toraxNewMedidas || ""],
+        [userMedidas?.abdomen || "",userNewMedidas?.abdomenNewMedidas || ""],
+        [userMedidas?.quadril || "",userNewMedidas?.quadrilNewMedidas || ""],
+        [userMedidas?.coxadireita || "",userNewMedidas?.coxadireitaNewMedidas || ""],
+        [userMedidas?.coxaesquerda || "",userNewMedidas?.coxaesquerdaNewMedidas || ""],
+      ],
+    };
   useEffect(() => {
     loadImage();
   }, []);
@@ -69,62 +102,99 @@ const Perfil = () => {
   useFocusEffect(
     React.useCallback(() => {
       getUserData();
+      getUserMedidas();
     }, [])
   );
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-        <View style={styles.header}>
-          <View
-            style={{ flexDirection: "row", alignItems: "center", bottom: 10 }}
-          >
-            <Text style={styles.headerTitle}>Perfil</Text>
-          </View>
-          <View style={{ bottom: 10 }}>
-            <MaterialIcons
-              name="edit"
-              size={26}
-              color="black"
-              onPress={() => navigation.navigate("EditarPerfil")}
-            />
-          </View>
+      <View style={styles.header}>
+        <View
+          style={{ flexDirection: "row", alignItems: "center", bottom: 10 }}
+        >
+          <Text style={styles.headerTitle}>Perfil</Text>
         </View>
+        <View style={{ bottom: 10 }}>
+          <MaterialIcons
+            name="edit"
+            size={26}
+            color="black"
+            onPress={() => navigation.navigate("EditarPerfil")}
+          />
+        </View>
+      </View>
 
-        <View style={styles.container}>
+      <View style={styles.container}>
+        <View style={styles.profileContainer}>
           <TouchableOpacity onPress={pickImage}>
             <View style={styles.imageContainer}>
               {image && <Image source={{ uri: image }} style={styles.image} />}
               {!image && (
                 <Image
                   source={{
-                    uri: "https://cdn-icons-png.flaticon.com/512/3135/3135768.png",
+                    uri: "https://digimedia.web.ua.pt/wp-content/uploads/2017/05/default-user-image.png",
                   }}
                   style={styles.image}
                 />
               )}
             </View>
           </TouchableOpacity>
-          <Text style={styles.name}>{userDetails?.fullname}</Text>
-          <View style={styles.infoContainer}>
-            <View style={styles.infoBox}>
-              <Text style={styles.infoTitle}>{userDetails?.age}</Text>
-              <Text style={styles.infoSubtitle}>Idade</Text>
+          <View style={styles.detailsContainer}>
+            <Text style={styles.name}>{userDetails?.fullname}</Text>
+            <View style={styles.infoContainer}>
+              <View style={styles.infoBox}>
+                <Text style={styles.infoTitle}>{userDetails?.age}</Text>
+                <Text style={styles.infoSubtitle}>Idade</Text>
+              </View>
+              <View style={styles.infoBox}>
+                <Text style={styles.infoTitle}>{userDetails?.weight}</Text>
+                <Text style={styles.infoSubtitle}>Peso</Text>
+              </View>
+              <View style={styles.infoBox}>
+                <Text style={styles.infoTitle}>{userDetails?.height}</Text>
+                <Text style={styles.infoSubtitle}>Altura</Text>
+              </View>
             </View>
-            <View style={styles.infoBox}>
-              <Text style={styles.infoTitle}>{userDetails?.weight}</Text>
-              <Text style={styles.infoSubtitle}>Peso</Text>
-            </View>
-            <View style={styles.infoBox}>
-              <Text style={styles.infoTitle}>{userDetails?.height}</Text>
-              <Text style={styles.infoSubtitle}>Altura</Text>
-            </View>        
           </View>
-          <Pressable
-        onPress={() => navigation.navigate("EditarMedidas")}
-      >
-        <Text style={styles.buttonText}>CONTINUAR</Text>
-      </Pressable>
         </View>
+      </View>
+
+      <View style={styles.MainTable}>
+        <Table borderStyle={{ borderWidth: 1 }}>
+          <Row
+            data={medidas.tableHead}
+            flexArr={[1, 1, 1, 1, 1]}
+            style={styles.tableheader}
+            textStyle={styles.tableheader_text}
+          />
+          
+
+          <TableWrapper style={styles.tableWrapper}>
+            <Col data={medidas.tableTitle} textStyle={styles.textTitle} />
+
+            <Rows
+              style={styles.stats}
+              data={medidas.tableData}
+              flexArr={[1, 1]}
+              textStyle={styles.textstats}
+            />
+          </TableWrapper>
+        </Table>
+        <View style={styles.btnContainer}>
+          <Pressable
+            style={styles.btnstyle}
+            onPress={() => navigation.navigate("EditarMedidas")}
+          >
+            <Text style={styles.btnText}>Editar</Text>
+          </Pressable>
+          <Pressable
+  style={styles.btnstyle}
+  onPress={limparmedidas}
+>
+  <Text style={styles.btnText}>Limpar</Text>
+</Pressable>
+        </View>
+      </View>
     </SafeAreaView>
   );
 };
@@ -145,20 +215,24 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    alignItems: "center",
     marginTop: 20,
+    marginLeft: 25,
     backgroundColor: "#f0f0f0",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+    flexDirection: "column",
+  },
+  profileContainer: {
+    flexDirection: "row",
+    alignItems: "center",
   },
   imageContainer: {
-    width: 150,
-    height: 150,
+    width: 110,
+    height: 110,
     borderRadius: 75,
     overflow: "hidden",
-    marginBottom: 20,
+    marginBottom: 0,
     borderWidth: 2,
     backgroundColor: "#f2f2f2",
+    alignSelf: "flex-start",
   },
   image: {
     width: "100%",
@@ -169,11 +243,20 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 10,
   },
+  detailsContainer: {
+    flexDirection: "column",
+    marginLeft: 20,
+    flex: 1,
+  },
+
   infoContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     width: "80%",
     marginBottom: 20,
+  },
+  infoBox: {
+    alignItems: "center",
   },
 
   infoTitle: {
@@ -184,57 +267,55 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#a3a3a3",
   },
-  btnContainer: {
-    gap: 4,
+  MainTable: {
     flex: 1,
-    marginVertical: 40,
-    width: "80%",
-    gap: 4,
-    flexDirection: "column",
-    justifyContent: "space-around",
-    marginVertical: 40,
-    marginBottom: 10,
+    padding: 20,
+    marginBottom: 280,
   },
-  btn: {
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 10,
-    backgroundColor: "black",
-    padding: 10,
-    marginTop: 10,
+  tableheader: {
+    height: 40,
+    backgroundColor: "#325288",
   },
-  measurementsContainer: {
-    marginTop: 20,
-    width: "100%",
-    paddingHorizontal: 20,
-    backgroundColor: "#fff",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    paddingVertical: 20,
-  },
-  measurementsTitle: {
-    fontSize: 20,
+  tableheader_text: {
+    textAlign: "center",
     fontWeight: "bold",
-    marginBottom: 20,
+    fontSize: 18,
+    color: "#fff",
   },
-  measurementsRow: {
+  tableWrapper: {
+    flexDirection: "row",
+    backgroundColor: "#325288",
+  },
+  textTitle: {
+    textAlign: "center",
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#fff",
+  },
+  textstats: {
+    textAlign: "center",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  stats: {
+    height: 40,
+    backgroundColor: "#fff",
+  },
+  btnContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingVertical: 10,
+    padding: 10,
   },
-  measurementsLabel: {
-    fontSize: 16,
-    fontWeight: "bold",
+  btnText: {
+    fontSize: 20,
+    color: "#fff",
+    textAlign: "center",
   },
-  measurementsValue: {
-    fontSize: 16,
-    color: "#666",
-  },
-  measurementsSeparator: {
-    backgroundColor: "#ccc",
-    height: 1,
-    width: "100%",
-    marginVertical: 10,
+  btnstyle: {
+    backgroundColor: "#325288",
+    borderRadius: 10,
+    padding: 10,
+    width: 130,
   },
 });
 

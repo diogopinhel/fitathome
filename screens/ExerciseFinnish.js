@@ -7,6 +7,31 @@ const ExerciseFinish = () => {
   const navigation = useNavigation();
   const [countExercises, setCountExercises] = useState(0);
   const [countPlans, setCountPlans] = useState(1);
+  const [countexercisesTotal, setCountExercisesTotal] = useState(0);
+  const [countplansTotal, setCountPlansTotal] = useState(0);
+
+  const getcountexercisesTotal = async () => {
+    const value = await AsyncStorage.getItem("countexercisesTotal");
+    const countExercises = await AsyncStorage.getItem("countExercises");
+    const updatedValue = parseInt(value || 0) + parseInt(countExercises || 0);
+    setCountExercisesTotal(updatedValue);
+    await AsyncStorage.setItem("countexercisesTotal", updatedValue.toString());
+    await AsyncStorage.setItem("countExercises", "0");
+  };
+
+  const getcountplansTotal = async () => {
+    const value1 = await AsyncStorage.getItem("countplansTotal");
+    const countPlans = await AsyncStorage.getItem("countPlans");
+    const updatedValue = (parseInt(value1) || 0) + (parseInt(countPlans) || 0);
+    setCountPlansTotal(updatedValue);
+    await AsyncStorage.setItem("countplansTotal", updatedValue.toString());
+    await AsyncStorage.setItem("countPlans", "0");
+  };
+
+  useEffect(() => {
+    getcountexercisesTotal();
+    getcountplansTotal();
+  })
 
   useEffect(() => {
     const getExerciseCount = async () => {
@@ -14,7 +39,7 @@ const ExerciseFinish = () => {
         const value = await AsyncStorage.getItem("countExercises");
         setCountExercises(parseInt(value) || 0);
       } catch (error) {
-        console.error(error);
+        console.error(error); 
       }
     };
     getExerciseCount();

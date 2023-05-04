@@ -8,11 +8,9 @@ import FitnessCardsHome from "../components/FitnessCardsHome";
 
 const HomeScreen = ({ navigation }) => {
   const [userDetails, setUserDetails] = useState();
-  const [countexercisesTotal, setCountexExercisesTotal] = useState(0);
+  const [countexercisesTotal, setCountExercisesTotal] = useState(0);
   const [countplansTotal, setCountPlansTotal] = useState(0);
-
- 
-
+  
   //Obter dados do utilizador da Async
   const getUserData = async () => {
     const userData = await AsyncStorage.getItem("userData");
@@ -21,24 +19,28 @@ const HomeScreen = ({ navigation }) => {
     }
   };
 
-  const getcountexercisesTotal = async () => {
-    const value = await AsyncStorage.getItem("countexercisesTotal");
-    const countExercises = await AsyncStorage.getItem("countExercises");
-    const updatedValue = parseInt(value || 0) + parseInt(countExercises || 0);
-    setCountexExercisesTotal(updatedValue);
-    await AsyncStorage.setItem("countexercisesTotal", updatedValue.toString());
-    await AsyncStorage.setItem("countExercises", "0");
-  };
-
   const getcountplansTotal = async () => {
-    const value1 = await AsyncStorage.getItem("countplansTotal");
-    const countPlans = await AsyncStorage.getItem("countPlans");
-    const updatedValue = (parseInt(value1) || 0) + (parseInt(countPlans) || 0);
-    setCountPlansTotal(updatedValue);
-    await AsyncStorage.setItem("countplansTotal", updatedValue.toString());
-    await AsyncStorage.setItem("countPlans", "0");
+    try {
+      const value = await AsyncStorage.getItem("countplansTotal");
+      setCountPlansTotal(parseInt(value) || 0);
+    } catch (error) {
+      console.error(error);
+    }
   };
+  getcountplansTotal ();
 
+  const getcountexercisesTotal = async () => {
+    try {
+      const value = await AsyncStorage.getItem("countexercisesTotal");
+      setCountExercisesTotal(parseInt(value) || 0);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  getcountexercisesTotal();
+
+  
+  
   //Atualizar sempre que a tela é carregada
   useFocusEffect(
     React.useCallback(() => {
@@ -47,6 +49,7 @@ const HomeScreen = ({ navigation }) => {
       getUserData();
     }, [])
   );
+
 
   //Abrir Tela lateral
   const handleMenuPress = () => {
