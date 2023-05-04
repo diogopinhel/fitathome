@@ -1,15 +1,5 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  SafeAreaView,
-  Keyboard,
-  ScrollView,
-  Alert,
-  StyleSheet,
-} from "react-native";
-
+import { View, Text, SafeAreaView, Keyboard, ScrollView, Alert, StyleSheet } from "react-native";
+import React from "react";
 import COLORS from "../login/conts/colors";
 import Button from "../login/views/components/Button";
 import Input from "../login/views/components/Input";
@@ -17,6 +7,7 @@ import Loader from "../login/views/components/Loader";
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { TouchableOpacity } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import moment from "moment";
 
 const EditarMedidas = ({ navigation }) => {
@@ -31,6 +22,7 @@ const EditarMedidas = ({ navigation }) => {
     coxadireita: "",
     coxaesquerda: "",
   });
+  
   const [errors, setErrors] = React.useState({});
   const [loading, setLoading] = React.useState(false);
   const [showDatePicker, setShowDatePicker] = React.useState(false);
@@ -45,20 +37,6 @@ const EditarMedidas = ({ navigation }) => {
     setShowDatePicker(true);
   };
 
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const data = await AsyncStorage.getItem("userData");
-        if (data) {
-          const parsedData = JSON.parse(data);
-          setInputs(parsedData);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    loadData();
-  }, []);
 
   const validate = () => {
     Keyboard.dismiss();
@@ -114,18 +92,64 @@ const EditarMedidas = ({ navigation }) => {
     }
   };
 
-  const salvar = () => {
+  const salvar = async () => {
     setLoading(true);
-    setTimeout(() => {
-      try {
-        setLoading(false);
-        AsyncStorage.setItem("userData", JSON.stringify(inputs));
-        navigation.navigate("Tab");
-      } catch (error) {
-        Alert.alert("Error", "Algo deu errado");
+  
+    try {
+      const Medidas = await AsyncStorage.getItem("userMedidas");
+      const MedidasObj = JSON.parse(Medidas);
+  
+      if (MedidasObj && MedidasObj.ombros && MedidasObj.torax && MedidasObj.abdomen && MedidasObj.quadril && MedidasObj.braçodireito && MedidasObj.braçoesquerdo && MedidasObj.coxadireita && MedidasObj.coxaesquerda) {
+        // Se userMedidas já tiver medidas, crie uma nova chave "NewMedidas"
+        console.log("userMedidas já tem medidas, criando nova chave NewMedidas");
+        const NewMedidas = await AsyncStorage.getItem("userNewMedidas");
+        let NewMedidasObj = NewMedidas ? JSON.parse(NewMedidas) : {};
+  
+        NewMedidasObj = {
+          ombrosNewMedidas: inputs.ombros,
+          braçodireitoNewMedidas: inputs.braçodireito,
+          braçoesquerdoNewMedidas: inputs.braçoesquerdo,
+          toraxNewMedidas: inputs.torax,
+          abdomenNewMedidas: inputs.abdomen,
+          quadrilNewMedidas: inputs.quadril,
+          coxadireitaNewMedidas: inputs.coxadireita,
+          coxaesquerdaNewMedidas: inputs.coxaesquerda,
+          dateNewMedidas: inputs.date,
+        };
+  
+        console.log("Salvando medidas em userNewMedidas:", NewMedidasObj);
+        await AsyncStorage.setItem("userNewMedidas", JSON.stringify(NewMedidasObj));
+      } else {
+        // Caso contrário, atualize a chave "userMedidas" existente
+        console.log("userMedidas não tem medidas, atualizando chave existente");
+        const updatedUserMedidas = {
+          ...MedidasObj,
+          ombros: inputs.ombros,
+          braçodireito: inputs.braçodireito,
+          braçoesquerdo: inputs.braçoesquerdo,
+          torax: inputs.torax,
+          abdomen: inputs.abdomen,
+          quadril: inputs.quadril,
+          coxadireita: inputs.coxadireita,
+          coxaesquerda: inputs.coxaesquerda,
+          date: inputs.date,
+        };
+  
+        console.log("Salvando medidas em userMedidas:", updatedUserMedidas);
+        await AsyncStorage.setItem("userMedidas", JSON.stringify(updatedUserMedidas));
       }
-    }, 3000);
+  
+      setLoading(false);
+      navigation.navigate("Tab");
+      console.log("Medidas salvas com sucesso");
+    } catch (error) {
+      setLoading(false);
+      Alert.alert("Error", "Algo deu errado");
+      console.log("Erro ao salvar medidas:", error);
+    }
   };
+  
+  
 
   const handleOnchange = (text, input) => {
     setInputs((prevState) => ({ ...prevState, [input]: text }));
