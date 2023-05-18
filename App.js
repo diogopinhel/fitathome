@@ -5,11 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import {
-  DrawerContentScrollView,
-  DrawerItemList,
-  DrawerItem,
-} from "@react-navigation/drawer";
+import {DrawerContentScrollView, DrawerItemList, DrawerItem, } from "@react-navigation/drawer";
 import LoginScreen from "./login/views/screens/LoginScreen";
 import RegistrationScreen from "./login/views/screens/RegistrationScreen";
 import Loader from "./login/views/components/Loader";
@@ -22,14 +18,12 @@ import AjustarRestScreen from "./screens/AjustarRestScreen";
 import ExerciseFinnish from "./screens/ExerciseFinnish";
 import Perfil from "./screens/Perfil";
 import EditarPerfil from "./screens/EditarPerfil";
-import VerMedidas from "./screens/VerMedidas";
 import EditarMedidas from "./screens/EditarMedidas";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useFocusEffect } from "@react-navigation/native";
-
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -254,12 +248,12 @@ const StackNavigator = () => {
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="Fit"
+              name="FitScreen"
               component={FitScreen}
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="Rest"
+              name="RestScreen"
               component={RestScreen}
               options={{ headerShown: false }}
             />
@@ -269,18 +263,13 @@ const StackNavigator = () => {
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="Finnish"
+              name="ExerciseFinnish"
               component={ExerciseFinnish}
               options={{ headerShown: false }}
             />
             <Stack.Screen
               name="Perfil"
               component={Perfil}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="VerMedidas"
-              component={VerMedidas}
               options={{ headerShown: false }}
             />
             <Stack.Screen

@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -17,8 +17,8 @@ import { Ionicons } from "@expo/vector-icons";
 
 const EditarPerfil = ({ navigation }) => {
   const [inputs, setInputs] = React.useState({
-    email: "",
     fullname: "",
+    email: "",
     age: "",
     height: "",
     weight: "",
@@ -45,7 +45,10 @@ const EditarPerfil = ({ navigation }) => {
   const validate = () => {
     Keyboard.dismiss();
     let isValid = true;
-
+    if (!inputs.fullname) {
+      handleError("Insira o seu nome completo", "fullname");
+      isValid = false;
+    }
     if (!inputs.email) {
       handleError("Insira um email", "email");
       isValid = false;
@@ -53,12 +56,6 @@ const EditarPerfil = ({ navigation }) => {
       handleError("Insira um email válido", "email");
       isValid = false;
     }
-
-    if (!inputs.fullname) {
-      handleError("Insira o seu nome completo", "fullname");
-      isValid = false;
-    }
-
     if (!inputs.age) {
       handleError("Insira a sua idade", "age");
       isValid = false;
@@ -66,7 +63,6 @@ const EditarPerfil = ({ navigation }) => {
       handleError("Selecione uma idade válida", "age");
       isValid = false;
     }
-
     if (!inputs.weight) {
       handleError("Insira o seu peso", "weight");
       isValid = false;
@@ -81,7 +77,6 @@ const EditarPerfil = ({ navigation }) => {
       handleError("Selecione uma altura valida", "height");
       isValid = false;
     }
-
     if (!inputs.password) {
       handleError("Insira uma palavra passe", "password");
       isValid = false;
@@ -89,7 +84,6 @@ const EditarPerfil = ({ navigation }) => {
       handleError("A palavra passe dever ter pelo menos 5 digitos", "password");
       isValid = false;
     }
-
     if (isValid) {
       salvar();
     }
@@ -138,19 +132,9 @@ const EditarPerfil = ({ navigation }) => {
           Perfil
         </Text>
         <Text style={{ color: COLORS.grey, fontSize: 18, marginVertical: 10 }}>
-          Insira as suas informações
+          Edite os seus dados pessoais
         </Text>
         <View style={{ marginVertical: 20 }}>
-          <Input
-            onChangeText={(text) => handleOnchange(text, "email")}
-            onFocus={() => handleError(null, "email")}
-            value={inputs.email}
-            iconName="email"
-            label="Email"
-            placeholder="Insira o seu email"
-            error={errors.email}
-          />
-
           <Input
             onChangeText={(text) => handleOnchange(text, "fullname")}
             onFocus={() => handleError(null, "fullname")}
@@ -159,6 +143,16 @@ const EditarPerfil = ({ navigation }) => {
             label="Nome"
             placeholder="Insira o seu nome"
             error={errors.fullname}
+          />
+
+          <Input
+            onChangeText={(text) => handleOnchange(text, "email")}
+            onFocus={() => handleError(null, "email")}
+            value={inputs.email}
+            iconName="email"
+            label="Email"
+            placeholder="Insira o seu email"
+            error={errors.email}
           />
 
           <Input
@@ -197,7 +191,7 @@ const EditarPerfil = ({ navigation }) => {
             onFocus={() => handleError(null, "password")}
             value={inputs.password}
             iconName="lock"
-            label="Password"
+            label="Palavra-passe"
             placeholder="Insira a sua palavra-passe"
             error={errors.password}
             password

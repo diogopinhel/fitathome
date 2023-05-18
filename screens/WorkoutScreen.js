@@ -1,13 +1,5 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  Image,
-  Pressable,
-  ScrollView,
-} from "react-native";
-import React, { useState } from "react";
+import { StyleSheet, Text, View, Image, Pressable, ScrollView, } from "react-native";
+import React from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -41,6 +33,7 @@ const WorkoutScreen = () => {
           size={24}
           color="white"
         />
+
         {route.params.exercises.map((item, index) => (
           <Pressable
             style={{ margin: 10, flexDirection: "row", alignItems: "center" }}
@@ -59,12 +52,13 @@ const WorkoutScreen = () => {
               </Text>
             </View>
           </Pressable>
+          
         ))}
       </ScrollView>
 
       <Pressable
         onPress={() => {
-          navigation.navigate("Fit", {
+          navigation.navigate("FitScreen", {
             exercises: route.params.exercises,
           });
         }}
@@ -86,7 +80,7 @@ const WorkoutScreen = () => {
             fontWeight: "600",
           }}
         >
-          START
+          COMEÇAR
         </Text>
       </Pressable>
     </>

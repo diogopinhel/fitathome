@@ -1,4 +1,4 @@
-import { StyleSheet, Text, SafeAreaView, Image, Pressable } from "react-native";
+import {Text, SafeAreaView, Image, Pressable } from "react-native";
 import React, { useState, useEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -12,20 +12,21 @@ const FitScreen = () => {
   const current = exercise[index];
   //console.log(current, "first exercise");
   const [countExercises, setCountExercises] = useState(0);
+  const [countexercisesTotal, setCountExercisesTotal] = useState(0);
 
   useEffect(() => {
     AsyncStorage.setItem("countExercises", countExercises.toString());
   }, [countExercises]);
 
-  const handleDonePress = () => {
+  const handleDonePress = async () => {
     setCountExercises(countExercises + 1);
     if (index + 1 >= exercise.length) {
-      navigation.navigate("Finnish");
+      navigation.navigate("ExerciseFinnish");
     } else {
       setTimeout(() => {
         setIndex(index + 1);
       }, 2000);
-      navigation.navigate("Rest");
+      navigation.navigate("RestScreen");
     }
   };
 
@@ -80,7 +81,7 @@ const FitScreen = () => {
             color: "white",
           }}
         >
-          SEGUINTE
+          FEITO
         </Text>
       </Pressable>
       <Pressable
@@ -116,7 +117,7 @@ const FitScreen = () => {
         {index + 1 >= exercise.length ? (
           <Pressable
             onPress={() => {
-              navigation.navigate("Finnish");
+              navigation.navigate("ExerciseFinnish");
             }}
             style={{
               backgroundColor: "green",
@@ -158,7 +159,7 @@ const FitScreen = () => {
               }}
             >
               {" "}
-              SALTAR{" "}
+              SEGUINTE{" "}
             </Text>
           </Pressable>
         )}
