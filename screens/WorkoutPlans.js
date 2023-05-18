@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, Pressable, Image } from "react-native";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 import React from "react";
 import FitnessCards from "../components/FitnessCards";
 import { useNavigation } from "@react-navigation/native";

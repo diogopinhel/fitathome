@@ -1,4 +1,12 @@
-import { View, Text, SafeAreaView, Keyboard, ScrollView, Alert, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  Keyboard,
+  ScrollView,
+  Alert,
+  StyleSheet,
+} from "react-native";
 import React from "react";
 import COLORS from "../login/conts/colors";
 import Button from "../login/views/components/Button";
@@ -17,12 +25,13 @@ const EditarMedidas = ({ navigation }) => {
     braçodireito: "",
     braçoesquerdo: "",
     torax: "",
+    cintura: "",
     abdomen: "",
     quadril: "",
     coxadireita: "",
     coxaesquerda: "",
   });
-  
+
   const [errors, setErrors] = React.useState({});
   const [loading, setLoading] = React.useState(false);
   const [showDatePicker, setShowDatePicker] = React.useState(false);
@@ -36,7 +45,6 @@ const EditarMedidas = ({ navigation }) => {
   const handleOnPressDateInput = () => {
     setShowDatePicker(true);
   };
-
 
   const validate = () => {
     Keyboard.dismiss();
@@ -67,6 +75,11 @@ const EditarMedidas = ({ navigation }) => {
       isValid = false;
     }
 
+    if (!inputs.cintura) {
+      handleError("Insira a medida do toráx", "torax");
+      isValid = false;
+    }
+
     if (!inputs.abdomen) {
       handleError("Insira a medida do abdomén", "abdomen");
       isValid = false;
@@ -83,7 +96,7 @@ const EditarMedidas = ({ navigation }) => {
     }
 
     if (!inputs.coxaesquerda) {
-      handleError("Insira a medida do toráx", "coxaesquerda");
+      handleError("Insira a medida da coxa esquerda", "coxaesquerda");
       isValid = false;
     }
 
@@ -94,62 +107,81 @@ const EditarMedidas = ({ navigation }) => {
 
   const salvar = async () => {
     setLoading(true);
-  
-    try {
-      const Medidas = await AsyncStorage.getItem("userMedidas");
-      const MedidasObj = JSON.parse(Medidas);
-  
-      if (MedidasObj && MedidasObj.ombros && MedidasObj.torax && MedidasObj.abdomen && MedidasObj.quadril && MedidasObj.braçodireito && MedidasObj.braçoesquerdo && MedidasObj.coxadireita && MedidasObj.coxaesquerda) {
-        // Se userMedidas já tiver medidas, crie uma nova chave "NewMedidas"
-        console.log("userMedidas já tem medidas, criando nova chave NewMedidas");
-        const NewMedidas = await AsyncStorage.getItem("userNewMedidas");
-        let NewMedidasObj = NewMedidas ? JSON.parse(NewMedidas) : {};
-  
-        NewMedidasObj = {
-          ombrosNewMedidas: inputs.ombros,
-          braçodireitoNewMedidas: inputs.braçodireito,
-          braçoesquerdoNewMedidas: inputs.braçoesquerdo,
-          toraxNewMedidas: inputs.torax,
-          abdomenNewMedidas: inputs.abdomen,
-          quadrilNewMedidas: inputs.quadril,
-          coxadireitaNewMedidas: inputs.coxadireita,
-          coxaesquerdaNewMedidas: inputs.coxaesquerda,
-          dateNewMedidas: inputs.date,
-        };
-  
-        console.log("Salvando medidas em userNewMedidas:", NewMedidasObj);
-        await AsyncStorage.setItem("userNewMedidas", JSON.stringify(NewMedidasObj));
-      } else {
-        // Caso contrário, atualize a chave "userMedidas" existente
-        console.log("userMedidas não tem medidas, atualizando chave existente");
-        const updatedUserMedidas = {
-          ...MedidasObj,
-          ombros: inputs.ombros,
-          braçodireito: inputs.braçodireito,
-          braçoesquerdo: inputs.braçoesquerdo,
-          torax: inputs.torax,
-          abdomen: inputs.abdomen,
-          quadril: inputs.quadril,
-          coxadireita: inputs.coxadireita,
-          coxaesquerda: inputs.coxaesquerda,
-          date: inputs.date,
-        };
-  
-        console.log("Salvando medidas em userMedidas:", updatedUserMedidas);
-        await AsyncStorage.setItem("userMedidas", JSON.stringify(updatedUserMedidas));
+
+    setTimeout(async () => {
+      try {
+        const Medidas = await AsyncStorage.getItem("userMedidas");
+        const MedidasObj = JSON.parse(Medidas);
+
+        if (
+          MedidasObj &&
+          MedidasObj.ombros &&
+          MedidasObj.torax &&
+          MedidasObj.torax &&
+          MedidasObj.abdomen &&
+          MedidasObj.quadril &&
+          MedidasObj.braçodireito &&
+          MedidasObj.braçoesquerdo &&
+          MedidasObj.coxadireita &&
+          MedidasObj.coxaesquerda
+        ) {
+          // Se userMedidas já tiver medidas, crie uma nova chave "userNewMedidas"
+          console.log(
+            "userMedidas já tem medidas, criando nova chave userNewMedidas"
+          );
+          const NewMedidas = await AsyncStorage.getItem("userNewMedidas");
+          let NewMedidasObj = NewMedidas ? JSON.parse(NewMedidas) : {};
+          NewMedidasObj = {
+            ombrosNewMedidas: inputs.ombros,
+            braçodireitoNewMedidas: inputs.braçodireito,
+            braçoesquerdoNewMedidas: inputs.braçoesquerdo,
+            toraxNewMedidas: inputs.torax,
+            cinturaNewMedidas: inputs.cintura,
+            abdomenNewMedidas: inputs.abdomen,
+            quadrilNewMedidas: inputs.quadril,
+            coxadireitaNewMedidas: inputs.coxadireita,
+            coxaesquerdaNewMedidas: inputs.coxaesquerda,
+            dateNewMedidas: inputs.date,
+          };
+          console.log("Salvando medidas em userNewMedidas:", NewMedidasObj);
+          await AsyncStorage.setItem(
+            "userNewMedidas",
+            JSON.stringify(NewMedidasObj)
+          );
+        } else {
+          // Caso contrário, atualize a chave "userMedidas" existente
+          console.log(
+            "userMedidas não tem medidas, atualizando chave existente"
+          );
+          const updatedUserMedidas = {
+            ...MedidasObj,
+            ombros: inputs.ombros,
+            braçodireito: inputs.braçodireito,
+            braçoesquerdo: inputs.braçoesquerdo,
+            torax: inputs.torax,
+            cintura: inputs.cintura,
+            abdomen: inputs.abdomen,
+            quadril: inputs.quadril,
+            coxadireita: inputs.coxadireita,
+            coxaesquerda: inputs.coxaesquerda,
+            date: inputs.date,
+          };
+          console.log("Salvando medidas em userMedidas:", updatedUserMedidas);
+          await AsyncStorage.setItem(
+            "userMedidas",
+            JSON.stringify(updatedUserMedidas)
+          );
+        }
+
+        navigation.navigate("Tab");
+        console.log("Medidas salvas com sucesso");
+      } catch (error) {
+        setLoading(false);
+        Alert.alert("Error", "Algo deu errado");
+        console.log("Erro ao salvar medidas:", error);
       }
-  
-      setLoading(false);
-      navigation.navigate("Tab");
-      console.log("Medidas salvas com sucesso");
-    } catch (error) {
-      setLoading(false);
-      Alert.alert("Error", "Algo deu errado");
-      console.log("Erro ao salvar medidas:", error);
-    }
+    }, 2000);
   };
-  
-  
 
   const handleOnchange = (text, input) => {
     setInputs((prevState) => ({ ...prevState, [input]: text }));
@@ -184,38 +216,36 @@ const EditarMedidas = ({ navigation }) => {
           Insira as suas medidas
         </Text>
         <View style={{ marginVertical: 20 }}>
-
-            <Text style={styles.label}>Selecione a Data</Text>
-            <TouchableOpacity onPress={handleOnPressDateInput}>
-              <View
-                style={[
-                  styles.inputContainer,
-                  {
-                    borderColor: errors.date ? COLORS.red : COLORS.light,
-                  },
-                ]}
-              >
-
-                <Text style={styles.inputText}>
-                  {inputs.date
-                    ? moment(inputs.date).format("DD/MM/YYYY")
-                    :  moment().format("DD/MM/YYYY")}
-                </Text>
-              </View>
-            </TouchableOpacity>
-            {showDatePicker && (
-              <DateTimePicker
-                value={inputs.date ? new Date(inputs.date) : new Date()}
-                mode="date"
-                is24Hour={true}
-                display="default"
-                onChange={(event, date) => {
-                  setShowDatePicker(false);
-                  handleOnDateChange(date);
-                }}
-              />
-            )}
-            <Text style={styles.errorText}>{errors.date}</Text>
+          <Text style={styles.label}>Selecione a Data</Text>
+          <TouchableOpacity onPress={handleOnPressDateInput}>
+            <View
+              style={[
+                styles.inputContainer,
+                {
+                  borderColor: errors.date ? COLORS.red : COLORS.light,
+                },
+              ]}
+            >
+              <Text style={styles.inputText}>
+                {inputs.date
+                  ? moment(inputs.date).format("DD/MM/YYYY")
+                  : "Selecione uma data"}
+              </Text>
+            </View>
+          </TouchableOpacity>
+          {showDatePicker && (
+            <DateTimePicker
+              value={inputs.date ? new Date(inputs.date) : new Date()}
+              mode="date"
+              is24Hour={true}
+              display="default"
+              onChange={(event, date) => {
+                setShowDatePicker(false);
+                handleOnDateChange(date);
+              }}
+            />
+          )}
+          <Text style={styles.errorText}>{errors.date}</Text>
           <Input
             keyboardType="numeric"
             onChangeText={(text) => handleOnchange(text, "ombros")}
@@ -254,6 +284,16 @@ const EditarMedidas = ({ navigation }) => {
             label="Toráx"
             placeholder="Insira a medida do toráx"
             error={errors.torax}
+          />
+
+          <Input
+            keyboardType="numeric"
+            onChangeText={(text) => handleOnchange(text, "cintura")}
+            value={inputs.cintura}
+            onFocus={() => handleError(null, "cintura")}
+            label="Cintura"
+            placeholder="Insira a medida da cintura"
+            error={errors.cintura}
           />
 
           <Input
@@ -311,7 +351,6 @@ const EditarMedidas = ({ navigation }) => {
   );
 };
 const styles = StyleSheet.create({
-
   label: {
     marginVertical: 5,
     fontSize: 14,
@@ -320,15 +359,15 @@ const styles = StyleSheet.create({
   inputContainer: {
     height: 55,
     backgroundColor: COLORS.light,
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingHorizontal: 15,
     borderWidth: 0.5,
-    alignItems: 'center',
+    alignItems: "center",
   },
   inputText: {
     color: "#9B9B9B",
     flex: 1,
-    marginLeft:10,
+    marginLeft: 10,
   },
   errorText: {
     marginTop: 7,

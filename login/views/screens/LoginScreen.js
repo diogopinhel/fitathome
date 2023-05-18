@@ -64,7 +64,7 @@ const LoginScreen = ({navigation}) => {
       <Loader visible={loading} />
       <View style={{paddingTop: 50, paddingHorizontal: 20}}>
         <Text style={{color: COLORS.black, fontSize: 40, fontWeight: 'bold'}}>
-          Log In
+          Iniciar Sessão
         </Text>
         <Text style={{color: COLORS.grey, fontSize: 18, marginVertical: 10}}>
           Insira os seus dados de login
@@ -87,7 +87,7 @@ const LoginScreen = ({navigation}) => {
             error={errors.password}
             password
           />
-          <Button title="Log In" onPress={validate} />
+          <Button title="Conectar" onPress={validate} />
           <Text
             onPress={() => navigation.navigate('RegistrationScreen')}
             style={{
