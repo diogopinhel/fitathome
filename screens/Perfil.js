@@ -1,11 +1,11 @@
-import {Pressable,StyleSheet,SafeAreaView,Text,View,Image,Platform,TouchableOpacity,} from "react-native";
+import {Pressable, StyleSheet, SafeAreaView, Text, View, Image, Platform, TouchableOpacity,} from "react-native";
 import { useNavigation} from "@react-navigation/native";
 import React, { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { useFocusEffect } from "@react-navigation/native";
-import {Table,TableWrapper,Row,Rows,Col} from "react-native-table-component";
+import { Table, TableWrapper, Row, Rows, Col} from "react-native-table-component";
 import moment from "moment";
 
 const Perfil = () => {
@@ -73,28 +73,34 @@ const Perfil = () => {
 
 
   const medidas = {
-    tableHead: ["Datas", moment(selectedDate || userMedidas?.date).format("DD/MM/YYYY"),moment(selectedDate || userNewMedidas?.dateNewMedidas).format("DD/MM/YYYY")],
+    tableHead: [
+      "Datas",
+      userMedidas && userMedidas.date ? moment(userMedidas.date).format("DD/MM/YYYY") : "",
+      userNewMedidas && userNewMedidas.dateNewMedidas ? moment(userNewMedidas.dateNewMedidas).format("DD/MM/YYYY") : ""
+    ],
     tableTitle: [
       "Ombros",
       "Braço Direito",
       "Braço Esquerdo",
       "Tórax",
+      "Cintura",
       "Abdomén",
       "Quadril",
       "Coxa Direita",
       "Coxa Esquerda",
     ],
-      tableData: [
-        [userMedidas?.ombros || "",userNewMedidas?.ombrosNewMedidas || ""],
-        [userMedidas?.braçodireito || "",userNewMedidas?.braçodireitoNewMedidas || ""],
-        [userMedidas?.braçoesquerdo || "",userNewMedidas?.braçoesquerdoNewMedidas || ""],
-        [userMedidas?.torax || "",userNewMedidas?.toraxNewMedidas || ""],
-        [userMedidas?.abdomen || "",userNewMedidas?.abdomenNewMedidas || ""],
-        [userMedidas?.quadril || "",userNewMedidas?.quadrilNewMedidas || ""],
-        [userMedidas?.coxadireita || "",userNewMedidas?.coxadireitaNewMedidas || ""],
-        [userMedidas?.coxaesquerda || "",userNewMedidas?.coxaesquerdaNewMedidas || ""],
-      ],
-    };
+    tableData: [
+      [userMedidas?.ombros || "", userNewMedidas?.ombrosNewMedidas || ""],
+      [userMedidas?.braçodireito || "", userNewMedidas?.braçodireitoNewMedidas || ""],
+      [userMedidas?.braçoesquerdo || "", userNewMedidas?.braçoesquerdoNewMedidas || ""],
+      [userMedidas?.torax || "", userNewMedidas?.toraxNewMedidas || ""],
+      [userMedidas?.cintura || "", userNewMedidas?.cinturaNewMedidas || ""],
+      [userMedidas?.abdomen || "", userNewMedidas?.abdomenNewMedidas || ""],
+      [userMedidas?.quadril || "", userNewMedidas?.quadrilNewMedidas || ""],
+      [userMedidas?.coxadireita || "", userNewMedidas?.coxadireitaNewMedidas || ""],
+      [userMedidas?.coxaesquerda || "", userNewMedidas?.coxaesquerdaNewMedidas || ""],
+    ],
+  };
   useEffect(() => {
     loadImage();
   }, []);
@@ -270,10 +276,10 @@ const styles = StyleSheet.create({
   MainTable: {
     flex: 1,
     padding: 20,
-    marginBottom: 280,
+    marginBottom: 320,
   },
   tableheader: {
-    height: 40,
+    height: 38,
     backgroundColor: "#325288",
   },
   tableheader_text: {
@@ -298,7 +304,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   stats: {
-    height: 40,
+    height: 38,
     backgroundColor: "#fff",
   },
   btnContainer: {
