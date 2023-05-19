@@ -1,17 +1,17 @@
-import { Text, View, Pressable, Image } from "react-native";
+import { Text, View, Pressable, Image, StyleSheet } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import FitnessData from "../data/FitnessData";
+import { AntDesign } from "@expo/vector-icons";
 
 const FitnessCardsHome = () => {
   const navigation = useNavigation();
 
-  // Select the desired plans
   const selectedPlans = [
-    FitnessData[11], // Plan 1
-    FitnessData[2], // Plan 3
-    FitnessData[4], // Plan 5
-    FitnessData[6], // Plan 7
+    FitnessData[1],
+    FitnessData[8],
+    FitnessData[3],
+    FitnessData[17],
   ];
 
   return (
@@ -22,7 +22,6 @@ const FitnessCardsHome = () => {
         justifyContent: "space-around",
       }}
     >
-      {/* Map through the selected plans */}
       <View>
         {selectedPlans.slice(0, 2).map((item, key) => (
           <Pressable
@@ -48,7 +47,7 @@ const FitnessCardsHome = () => {
                 borderRadius: 10,
               }}
               source={{ uri: item.image }}
-            ></Image>
+            />
             <Text
               style={{
                 position: "absolute",
@@ -61,12 +60,21 @@ const FitnessCardsHome = () => {
             >
               {item.name}
             </Text>
+            <View style={styles.starContainer}>
+              {[1, 2, 3].map((star) => (
+                <AntDesign
+                  key={star}
+                  name="star"
+                  size={18}
+                  color={star <= item.difficulty ? "#FFC107" : "#E1E1E1"}
+                />
+              ))}
+            </View>
           </Pressable>
         ))}
       </View>
 
       <View>
-        {/* Map through the selected plans */}
         {selectedPlans.slice(2, 4).map((item, key) => (
           <Pressable
             onPress={() =>
@@ -91,7 +99,7 @@ const FitnessCardsHome = () => {
                 borderRadius: 7,
               }}
               source={{ uri: item.image }}
-            ></Image>
+            />
             <Text
               style={{
                 position: "absolute",
@@ -104,6 +112,16 @@ const FitnessCardsHome = () => {
             >
               {item.name}
             </Text>
+            <View style={styles.starContainer}>
+              {[1, 2, 3].map((star) => (
+                <AntDesign
+                  key={star}
+                  name="star"
+                  size={18}
+                  color={star <= item.difficulty ? "#FFC107" : "#E1E1E1"}
+                />
+              ))}
+            </View>
           </Pressable>
         ))}
       </View>
@@ -112,3 +130,12 @@ const FitnessCardsHome = () => {
 };
 
 export default FitnessCardsHome;
+const styles = StyleSheet.create({
+  starContainer: {
+    position: "absolute",
+    bottom: 15,
+    left: 10,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+});

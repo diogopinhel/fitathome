@@ -63,6 +63,29 @@ const RestScreen = () => {
       >
         {timeLeft}
       </Text>
+
+      <Pressable
+        onPress={() => navigation.goBack()}
+        style={{
+          backgroundColor: "blue",
+          top:30,
+          borderRadius: 20,
+          padding: 12,
+          width: 140,
+          alignSelf: "center",
+        }}
+      >
+        <Text
+          style={{
+            color: "white",
+            fontWeight: "bold",
+            textAlign: "center",
+          }}
+        >
+          {" "}
+          SEGUINTE{" "}
+        </Text>
+      </Pressable>
     </SafeAreaView>
   );
 };
