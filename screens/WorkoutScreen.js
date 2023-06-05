@@ -58,7 +58,7 @@ const WorkoutScreen = () => {
 
       <Pressable
         onPress={() => {
-          navigation.navigate("FitScreen", {
+          navigation.navigate("FitScreen", {  
             exercises: route.params.exercises,
           });
         }}
