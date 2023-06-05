@@ -39,56 +39,51 @@ const RegistrationScreen = ({ navigation }) => {
   const validate = () => {
     Keyboard.dismiss();
     let isValid = true;
-
     if (!inputs.fullname) {
       handleError("Insira o seu nome completo", "fullname");
       isValid = false;
     }
-
     if (!inputs.email) {
       handleError("Insira um email", "email");
       isValid = false;
-    } else if (!inputs.email.match(/\S+@\gmail\.\S+/)) {
-      handleError("Insira um email válido", "email");
+    } else if (!/^\S+@(gmail|hotmail)\.\S+$/.test(inputs.email)) {
+      handleError("Insira um email válido (apenas Gmail ou Hotmail)", "email");
       isValid = false;
     }
-
     if (!inputs.age) {
       handleError("Insira a sua idade", "age");
       isValid = false;
-    } else if (inputs.weight.length > 4) {
+    } else if (inputs.age.length > 4) {
       handleError("Selecione uma idade válida", "age");
       isValid = false;
     }
-
     if (!inputs.weight) {
       handleError("Insira o seu peso", "weight");
       isValid = false;
     } else if (inputs.weight.length > 4) {
-      handleError("Selecione um peso valido", "weight");
+      handleError("Selecione um peso válido", "weight");
       isValid = false;
     }
     if (!inputs.height) {
       handleError("Insira a sua altura em centímetros", "height");
       isValid = false;
-    } else if (inputs.widht > 280) {
-      handleError("Selecione uma altura valida", "height");
+    } else if (inputs.height > 280) {
+      handleError("Selecione uma altura válida", "height");
       isValid = false;
     }
-
     if (!inputs.password) {
       handleError("Insira uma palavra passe", "password");
       isValid = false;
     } else if (inputs.password.length < 5) {
-      handleError("A palavra passe dever ter pelo menos 5 digitos", "password");
+      handleError("A palavra passe deve ter pelo menos 5 dígitos", "password");
       isValid = false;
     }
-
     if (isValid) {
       register();
       resetAsyncStorage();
     }
   };
+  
 
   const register = () => {
     setLoading(true);

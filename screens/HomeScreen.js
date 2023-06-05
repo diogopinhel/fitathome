@@ -11,7 +11,7 @@ const HomeScreen = ({ navigation }) => {
   const [countexercisesTotal, setCountExercisesTotal] = useState(0);
   const [countplansTotal, setCountPlansTotal] = useState(0);
   
-  //Obter dados do utilizador da Async
+  //Obter dados do utilizador da AsyncStorage
   const getUserData = async () => {
     const userData = await AsyncStorage.getItem("userData");
     if (userData) {

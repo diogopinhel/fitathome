@@ -42,7 +42,7 @@ const FitnessCards = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
+    marginTop: 60,
     paddingHorizontal: 20,
     flexDirection: "row",
     flexWrap: "wrap",
